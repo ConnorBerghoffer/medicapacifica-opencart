@@ -32,15 +32,15 @@ RUN { \
 # Apache configuration - allow .htaccess overrides
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-# Download and install OpenCart 4.0.2.3
-ENV OPENCART_VERSION=4.0.2.3
+# Download and install OpenCart 4.1.0.3
+ENV OPENCART_VERSION=4.1.0.3
 RUN curl -fSL "https://github.com/opencart/opencart/releases/download/${OPENCART_VERSION}/opencart-${OPENCART_VERSION}.zip" -o /tmp/opencart.zip \
     && unzip /tmp/opencart.zip -d /tmp/opencart \
     && rm -rf /var/www/html/* \
     && cp -a /tmp/opencart/upload/. /var/www/html/ \
     && rm -rf /tmp/opencart /tmp/opencart.zip
 
-# Create required config files (empty for installer)
+# Create required config files (empty for web installer)
 RUN touch /var/www/html/config.php \
     && touch /var/www/html/admin/config.php
 
