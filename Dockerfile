@@ -49,6 +49,10 @@ COPY theme/catalog/view/template/ /var/www/html/catalog/view/template/
 COPY theme/catalog/view/stylesheet/stylesheet.css /var/www/html/catalog/view/stylesheet/medicapacifica.css
 COPY theme/catalog/view/javascript/medicapacifica.js /var/www/html/catalog/view/javascript/medicapacifica.js
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
@@ -61,4 +65,4 @@ RUN chown -R www-data:www-data /var/www/html \
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+ENTRYPOINT ["docker-entrypoint.sh"]
