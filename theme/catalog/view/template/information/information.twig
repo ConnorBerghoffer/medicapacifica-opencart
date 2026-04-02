@@ -1,0 +1,157 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Information / CMS Page
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #information-information {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Page Header Banner -- */
+  .mp-info-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-info-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    right: -6%;
+    width: 300px;
+    height: 300px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-info-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Content Typography -- */
+  #information-information #content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  #information-information #content h1 {
+    display: none; /* Hidden because we show it in the banner above */
+  }
+
+  .mp-cms-content {
+    max-width: 800px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #374151;
+  }
+  .mp-cms-content h2,
+  .mp-cms-content h3,
+  .mp-cms-content h4,
+  .mp-cms-content h5 {
+    color: #0A2240;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.35;
+  }
+  .mp-cms-content h2 { font-size: 1.5rem; }
+  .mp-cms-content h3 { font-size: 1.25rem; }
+  .mp-cms-content h4 { font-size: 1.1rem; }
+  .mp-cms-content p {
+    margin-bottom: 1rem;
+  }
+  .mp-cms-content a {
+    color: #0891B2;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .mp-cms-content a:hover {
+    text-decoration: underline;
+    color: #0A2240;
+  }
+  .mp-cms-content ul,
+  .mp-cms-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .mp-cms-content li {
+    margin-bottom: 0.4rem;
+  }
+  .mp-cms-content blockquote {
+    border-left: 4px solid #0891B2;
+    padding: 0.75rem 1.25rem;
+    margin: 1.5rem 0;
+    background: #F8FAFC;
+    border-radius: 0 8px 8px 0;
+    color: #475569;
+    font-style: italic;
+  }
+  .mp-cms-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+  }
+  .mp-cms-content table th,
+  .mp-cms-content table td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+  }
+  .mp-cms-content table th {
+    background: #F8FAFC;
+    color: #0A2240;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .mp-cms-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+  }
+  .mp-cms-content hr {
+    border: none;
+    border-top: 2px solid #f1f5f9;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .mp-info-banner {
+      padding: 32px 0;
+    }
+    .mp-info-banner h1 {
+      font-size: 24px;
+    }
+    .mp-cms-content {
+      font-size: 0.95rem;
+    }
+  }
+</style>
+
+<div class="mp-info-banner">
+  <div class="container">
+    <h1>{{ heading_title }}</h1>
+  </div>
+</div>
+
+<div id="information-information" class="container">
+  {{ content_top }}
+  <div class="row">{{ column_left }}
+    <div id="content" class="{{ class }}">
+      <h1>{{ heading_title }}</h1>
+      <div class="mp-cms-content">
+        {{ description }}
+      </div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+{{ footer }}

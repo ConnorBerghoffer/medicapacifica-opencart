@@ -1,0 +1,590 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Product Category Page
+     OpenCart 4.1.x TWIG Template
+     Colors: Navy #0A2240, Teal #0891B2, Coral #E86C47
+     White #FFFFFF, Grey #F8FAFC | Font: Inter
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --mp-navy: #0A2240;
+    --mp-teal: #0891B2;
+    --mp-coral: #E86C47;
+    --mp-white: #FFFFFF;
+    --mp-grey: #F8FAFC;
+    --mp-border: #E2E8F0;
+    --mp-text: #334155;
+    --mp-text-lt: #64748B;
+    --mp-star: #F59E0B;
+    --mp-shadow: 0 1px 3px rgba(10,34,64,0.08);
+    --mp-shadow-lg: 0 8px 24px rgba(10,34,64,0.12);
+    --mp-radius: 10px;
+    --mp-tr: 0.25s ease;
+  }
+
+  #product-category * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+  /* ── Category Header Banner ────────────────────── */
+  .mp-cat-banner {
+    background: linear-gradient(135deg, var(--mp-navy) 0%, #133462 100%);
+    padding: 48px 0;
+    color: var(--mp-white);
+  }
+  .mp-cat-banner h1 {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    line-height: 1.2;
+  }
+  .mp-cat-banner .mp-cat-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.8);
+    max-width: 700px;
+    margin-top: 12px;
+  }
+  .mp-cat-banner .mp-cat-desc img { max-width: 100%; border-radius: var(--mp-radius); margin-top: 12px; }
+
+  /* ── Subcategory Cards ─────────────────────────── */
+  .mp-subcats { padding: 28px 0 16px; }
+  .mp-subcats-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--mp-navy);
+    margin-bottom: 14px;
+  }
+  .mp-subcat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 14px;
+  }
+  .mp-subcat-card {
+    background: var(--mp-white);
+    border: 1px solid var(--mp-border);
+    border-radius: var(--mp-radius);
+    text-align: center;
+    padding: 16px 12px;
+    text-decoration: none;
+    color: var(--mp-navy);
+    font-size: 13px;
+    font-weight: 600;
+    transition: all var(--mp-tr);
+    display: block;
+  }
+  .mp-subcat-card:hover {
+    box-shadow: var(--mp-shadow-lg);
+    border-color: var(--mp-teal);
+    color: var(--mp-teal);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .mp-subcat-card img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Toolbar ───────────────────────────────────── */
+  .mp-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--mp-white);
+    border: 1px solid var(--mp-border);
+    border-radius: var(--mp-radius);
+    padding: 12px 18px;
+    margin-bottom: 24px;
+  }
+  .mp-toolbar-left { display: flex; align-items: center; gap: 6px; }
+  .mp-view-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--mp-border);
+    border-radius: 6px;
+    background: var(--mp-white);
+    color: var(--mp-text-lt);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all var(--mp-tr);
+    padding: 0;
+  }
+  .mp-view-btn:hover, .mp-view-btn.active {
+    background: var(--mp-navy);
+    color: var(--mp-white);
+    border-color: var(--mp-navy);
+  }
+  .mp-toolbar-center {
+    font-size: 13px;
+    color: var(--mp-text-lt);
+  }
+  .mp-toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .mp-toolbar-right select {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 7px 30px 7px 10px;
+    border: 1px solid var(--mp-border);
+    border-radius: 6px;
+    background: var(--mp-white);
+    color: var(--mp-text);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  /* ── Product Grid ──────────────────────────────── */
+  #product-list .product-thumb,
+  .mp-product-grid .product-thumb {
+    background: var(--mp-white);
+    border: 1px solid var(--mp-border);
+    border-radius: var(--mp-radius);
+    overflow: hidden;
+    transition: all var(--mp-tr);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  #product-list .product-thumb:hover,
+  .mp-product-grid .product-thumb:hover {
+    box-shadow: var(--mp-shadow-lg);
+    transform: translateY(-3px);
+  }
+  #product-list .product-thumb .image {
+    background: var(--mp-grey);
+    text-align: center;
+    padding: 16px;
+    position: relative;
+  }
+  #product-list .product-thumb .image img {
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  #product-list .product-thumb:hover .image img {
+    transform: scale(1.03);
+  }
+  #product-list .product-thumb .content {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  #product-list .product-thumb .description h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  #product-list .product-thumb .description h4 a {
+    color: var(--mp-navy);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  #product-list .product-thumb .description h4 a:hover {
+    color: var(--mp-teal);
+  }
+  #product-list .product-thumb .description p {
+    color: var(--mp-text-lt);
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #product-list .product-thumb .price {
+    margin-top: auto;
+    margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    line-height: 1.3;
+  }
+  #product-list .product-thumb .price-new {
+    color: var(--mp-navy);
+    font-weight: 700;
+  }
+  #product-list .product-thumb .price-old {
+    font-size: 14px;
+    color: var(--mp-text-lt);
+    text-decoration: line-through;
+    font-weight: 400;
+    margin-left: 8px;
+  }
+  #product-list .product-thumb .price-tax {
+    display: block;
+    font-size: 11px;
+    color: var(--mp-text-lt);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* Rating */
+  #product-list .product-thumb .rating {
+    margin-bottom: 10px;
+  }
+  #product-list .product-thumb .rating .fa-stack {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 8px;
+  }
+  #product-list .product-thumb .rating .fa-solid.fa-star { color: var(--mp-star); }
+  #product-list .product-thumb .rating .fa-regular.fa-star { color: var(--mp-border); }
+
+  /* Button Group */
+  #product-list .product-thumb .button-group {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 16px;
+  }
+  #product-list .product-thumb .button-group .btn-primary {
+    flex: 1;
+    background: var(--mp-coral);
+    border-color: var(--mp-coral);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all var(--mp-tr);
+  }
+  #product-list .product-thumb .button-group .btn-primary:hover {
+    background: #D55A36;
+    border-color: #D55A36;
+    transform: none;
+  }
+  #product-list .product-thumb .button-group .btn-light {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--mp-border);
+    background: var(--mp-grey);
+    color: var(--mp-navy);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--mp-tr);
+  }
+  #product-list .product-thumb .button-group .btn-light:hover {
+    background: var(--mp-teal);
+    color: var(--mp-white);
+    border-color: var(--mp-teal);
+  }
+
+  /* Sale badge for special prices */
+  #product-list .product-thumb .image .mp-badge-sale {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--mp-coral);
+    color: var(--mp-white);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Pagination ────────────────────────────────── */
+  .mp-pagination-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .mp-pagination-row .pagination {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mp-pagination-row .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid var(--mp-border);
+    border-radius: 6px;
+    background: var(--mp-white);
+    color: var(--mp-text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all var(--mp-tr);
+  }
+  .mp-pagination-row .page-item.active .page-link {
+    background: var(--mp-navy);
+    color: var(--mp-white);
+    border-color: var(--mp-navy);
+  }
+  .mp-pagination-row .page-link:hover {
+    border-color: var(--mp-teal);
+    color: var(--mp-teal);
+  }
+  .mp-pagination-row .mp-results {
+    font-size: 13px;
+    color: var(--mp-text-lt);
+  }
+
+  /* ── Empty State ───────────────────────────────── */
+  .mp-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--mp-text-lt);
+  }
+  .mp-empty i { font-size: 48px; color: var(--mp-border); margin-bottom: 16px; display: block; }
+  .mp-empty h3 { font-size: 18px; color: var(--mp-navy); margin-bottom: 8px; }
+  .mp-empty p { margin-bottom: 24px; }
+  .mp-empty .btn-primary {
+    background: var(--mp-coral);
+    border-color: var(--mp-coral);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    padding: 12px 28px;
+  }
+  .mp-empty .btn-primary:hover { background: #D55A36; border-color: #D55A36; }
+
+  /* ── List View Override ────────────────────────── */
+  #product-list.mp-list-view { display: block !important; }
+  #product-list.mp-list-view > .col { max-width: 100%; flex: 0 0 100%; }
+  #product-list.mp-list-view .product-thumb {
+    flex-direction: row;
+  }
+  #product-list.mp-list-view .product-thumb .image {
+    width: 220px;
+    min-width: 220px;
+    padding: 20px;
+  }
+  #product-list.mp-list-view .product-thumb .image img {
+    max-height: 180px;
+  }
+  #product-list.mp-list-view .product-thumb .content {
+    padding: 20px;
+  }
+  #product-list.mp-list-view .product-thumb .description p {
+    -webkit-line-clamp: 3;
+  }
+  #product-list.mp-list-view .product-thumb .button-group {
+    padding: 0 20px 20px;
+    max-width: 320px;
+  }
+  @media (max-width: 767px) {
+    #product-list.mp-list-view .product-thumb { flex-direction: column; }
+    #product-list.mp-list-view .product-thumb .image { width: 100%; min-width: 100%; }
+  }
+
+  /* ── Responsive ────────────────────────────────── */
+  @media (max-width: 575px) {
+    .mp-cat-banner h1 { font-size: 24px; }
+    .mp-cat-banner { padding: 32px 0; }
+    .mp-toolbar { flex-direction: column; align-items: stretch; }
+    .mp-toolbar-center { text-align: center; }
+    .mp-toolbar-right { justify-content: center; }
+  }
+</style>
+
+<div id="product-category" class="container-fluid p-0">
+  {{ content_top }}
+
+  {# ── Category Header Banner ──────────────────────────────────── #}
+  <section class="mp-cat-banner">
+    <div class="container">
+      <h1>{{ heading_title }}</h1>
+      {% if thumb %}
+        <div class="row mt-3">
+          <div class="col-md-3"><img src="{{ thumb }}" alt="{{ heading_title }}" class="img-fluid" style="border-radius:var(--mp-radius);"/></div>
+          <div class="col-md-9">
+            {% if description %}
+              <div class="mp-cat-desc">{{ description }}</div>
+            {% endif %}
+          </div>
+        </div>
+      {% elseif description %}
+        <div class="mp-cat-desc">{{ description }}</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="row">
+      {{ column_left }}
+      <div id="content" class="{{ class }}">
+
+        {# ── Subcategory Tiles ───────────────────────────────── #}
+        {% if categories %}
+          <section class="mp-subcats">
+            <div class="mp-subcats-title">Browse Subcategories</div>
+            <div class="mp-subcat-grid">
+              {% for category in categories %}
+                <a href="{{ category.href }}" class="mp-subcat-card" data-testid="subcategory-link">
+                  {% if category.thumb %}
+                    <img src="{{ category.thumb }}" alt="{{ category.name }}" loading="lazy"/>
+                  {% endif %}
+                  <div>{{ category.name }}</div>
+                </a>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+
+        {# ── Product Listing ─────────────────────────────────── #}
+        {% if products %}
+
+          {# Toolbar #}
+          <div class="mp-toolbar">
+            <div class="mp-toolbar-left">
+              <button type="button" class="mp-view-btn active" id="btn-grid" data-testid="grid-view-btn" title="Grid view" onclick="mpCatView('grid')">
+                <i class="fa-solid fa-th-large"></i>
+              </button>
+              <button type="button" class="mp-view-btn" id="btn-list" data-testid="list-view-btn" title="List view" onclick="mpCatView('list')">
+                <i class="fa-solid fa-list"></i>
+              </button>
+            </div>
+            <div class="mp-toolbar-center">{{ pagination }}</div>
+            <div class="mp-toolbar-right">
+              <select id="input-sort" data-testid="sort-select" onchange="location = this.value;">
+                {% for sort in sorts %}
+                  <option value="{{ sort.href }}"{% if sort.value == sort_by %} selected{% endif %}>{{ sort.text }}</option>
+                {% endfor %}
+              </select>
+              <select id="input-limit" data-testid="limit-select" onchange="location = this.value;">
+                {% for limit in limits %}
+                  <option value="{{ limit.href }}"{% if limit.value == limit_by %} selected{% endif %}>{{ limit.text }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          {# Product Grid #}
+          <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
+            {% for product in products %}
+              <div class="col mb-4">
+                <div class="product-thumb">
+                  <div class="image">
+                    {% if product.special %}
+                      <span class="mp-badge-sale">Sale</span>
+                    {% endif %}
+                    <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" class="img-fluid" loading="lazy"/></a>
+                  </div>
+                  <div class="content">
+                    <div class="description">
+                      <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                      <p>{{ product.description }}</p>
+                    </div>
+                    {% if product.price %}
+                      <div class="price">
+                        {% if not product.special %}
+                          {{ product.price }}
+                        {% else %}
+                          <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+                        {% endif %}
+                        {% if product.tax %}
+                          <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if product.rating %}
+                      <div class="rating">
+                        {% for i in 1..5 %}
+                          {% if product.rating >= i %}
+                            <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i></span>
+                          {% else %}
+                            <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="button-group">
+                    <button type="button" title="{{ text_add_to_cart }}" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}')" class="btn btn-primary" data-testid="add-to-cart-{{ product.product_id }}"><i class="fa-solid fa-shopping-cart"></i> <span>{{ text_add_to_cart }}</span></button>
+                    <button type="button" title="{{ text_add_to_wish_list }}" onclick="wishlist.add('{{ product.product_id }}')" class="btn btn-light" data-testid="wishlist-{{ product.product_id }}"><i class="fa-solid fa-heart"></i></button>
+                    <button type="button" title="{{ text_compare }}" onclick="compare.add('{{ product.product_id }}')" class="btn btn-light" data-testid="compare-{{ product.product_id }}"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          {# Pagination #}
+          <div class="mp-pagination-row">
+            <div>{{ pagination }}</div>
+            <div class="mp-results">{{ results }}</div>
+          </div>
+
+        {% endif %}
+
+        {# ── Empty State ─────────────────────────────────────── #}
+        {% if not categories and not products %}
+          <div class="mp-empty">
+            <i class="fa-solid fa-box-open"></i>
+            <h3>{{ text_no_results }}</h3>
+            <p>There are no products in this category yet. Please check back soon or browse our other categories.</p>
+            <div class="text-end"><a href="{{ continue }}" class="btn btn-primary" data-testid="continue-btn">{{ button_continue }}</a></div>
+          </div>
+        {% endif %}
+
+      </div>
+      {{ column_right }}
+    </div>
+  </div>
+  {{ content_bottom }}
+</div>
+
+<script type="text/javascript"><!--
+(function() {
+  'use strict';
+
+  window.mpCatView = function(view) {
+    var container = document.getElementById('product-list');
+    var gridBtn = document.getElementById('btn-grid');
+    var listBtn = document.getElementById('btn-list');
+    if (!container) return;
+
+    if (view === 'list') {
+      container.classList.add('mp-list-view');
+      container.classList.remove('row-cols-sm-2', 'row-cols-md-2', 'row-cols-lg-4');
+      gridBtn.classList.remove('active');
+      listBtn.classList.add('active');
+    } else {
+      container.classList.remove('mp-list-view');
+      container.classList.add('row-cols-sm-2', 'row-cols-md-2', 'row-cols-lg-4');
+      listBtn.classList.remove('active');
+      gridBtn.classList.add('active');
+    }
+    localStorage.setItem('mp_cat_view', view);
+  };
+
+  var saved = localStorage.getItem('mp_cat_view');
+  if (saved) window.mpCatView(saved);
+})();
+//--></script>
+{{ footer }}

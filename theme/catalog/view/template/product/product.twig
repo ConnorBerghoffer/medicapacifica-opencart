@@ -1,0 +1,877 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Product Detail Page
+     OpenCart 4.1.x TWIG Template
+     Colors: Navy #0A2240, Teal #0891B2, Coral #E86C47
+     White #FFFFFF, Grey #F8FAFC | Font: Inter
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --mp-navy: #0A2240;
+    --mp-teal: #0891B2;
+    --mp-coral: #E86C47;
+    --mp-white: #FFFFFF;
+    --mp-grey: #F8FAFC;
+    --mp-border: #E2E8F0;
+    --mp-text: #334155;
+    --mp-text-lt: #64748B;
+    --mp-star: #F59E0B;
+    --mp-success: #16A34A;
+    --mp-danger: #DC2626;
+    --mp-shadow: 0 1px 3px rgba(10,34,64,0.08);
+    --mp-shadow-lg: 0 8px 24px rgba(10,34,64,0.12);
+    --mp-radius: 10px;
+    --mp-tr: 0.25s ease;
+  }
+
+  #product-info * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+  /* ── Breadcrumbs ────────────────────────────────── */
+  #product-info .breadcrumb {
+    background: var(--mp-grey);
+    padding: 14px 0;
+    margin: 0;
+    border-radius: 0;
+    font-size: 13px;
+  }
+  #product-info .breadcrumb-item a { color: var(--mp-teal); text-decoration: none; }
+  #product-info .breadcrumb-item a:hover { text-decoration: underline; }
+  #product-info .breadcrumb-item.active { color: var(--mp-text-lt); }
+
+  /* ── Two-Column Layout ─────────────────────────── */
+  .mp-product-main {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 40px;
+    padding: 36px 0 48px;
+    align-items: start;
+  }
+  @media (max-width: 991px) {
+    .mp-product-main { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* ── Gallery ────────────────────────────────────── */
+  .mp-gallery-main {
+    background: var(--mp-grey);
+    border: 1px solid var(--mp-border);
+    border-radius: var(--mp-radius);
+    overflow: hidden;
+    text-align: center;
+    padding: 24px;
+    cursor: zoom-in;
+    position: relative;
+  }
+  .mp-gallery-main img {
+    max-width: 100%;
+    max-height: 480px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  .mp-gallery-main:hover img { transform: scale(1.08); }
+  .mp-gallery-thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .mp-gallery-thumbs a {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border: 2px solid var(--mp-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mp-white);
+    transition: border-color var(--mp-tr);
+  }
+  .mp-gallery-thumbs a:hover,
+  .mp-gallery-thumbs a.active { border-color: var(--mp-teal); }
+  .mp-gallery-thumbs a img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  /* ── Product Info Column ────────────────────────── */
+  .mp-product-info h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+
+  /* Manufacturer */
+  .mp-manufacturer {
+    font-size: 14px;
+    color: var(--mp-text-lt);
+    margin-bottom: 8px;
+  }
+  .mp-manufacturer a { color: var(--mp-teal); text-decoration: none; }
+  .mp-manufacturer a:hover { text-decoration: underline; }
+
+  /* Meta list */
+  .mp-meta-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--mp-text-lt);
+  }
+  .mp-meta-list li { padding: 3px 0; }
+
+  /* Rating */
+  .mp-rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    font-size: 13px;
+  }
+  .mp-rating-row .fa-stack { width: 16px; height: 16px; line-height: 16px; font-size: 8px; }
+  .mp-rating-row .fa-solid.fa-star { color: var(--mp-star); }
+  .mp-rating-row .fa-regular.fa-star { color: var(--mp-border); }
+  .mp-rating-row a { color: var(--mp-teal); text-decoration: none; }
+  .mp-rating-row a:hover { text-decoration: underline; }
+
+  /* Price Block */
+  .mp-price-block {
+    background: var(--mp-grey);
+    border-radius: var(--mp-radius);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .mp-price-new {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--mp-navy);
+  }
+  .mp-price-block .price-old,
+  .mp-price-block .mp-price-old {
+    font-size: 18px;
+    color: var(--mp-text-lt);
+    text-decoration: line-through;
+    margin-left: 12px;
+  }
+  .mp-price-block .price-new { font-size: 32px; font-weight: 700; color: var(--mp-coral); }
+  .mp-price-tax { display: block; font-size: 13px; color: var(--mp-text-lt); margin-top: 4px; }
+  .mp-price-points { font-size: 13px; color: var(--mp-text-lt); }
+  .mp-price-discount { font-size: 13px; color: var(--mp-text); }
+
+  /* Options Section */
+  .mp-options-section { margin-bottom: 20px; }
+  .mp-options-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    margin-bottom: 14px;
+  }
+  .mp-options-section .mb-3 { margin-bottom: 14px; }
+  .mp-options-section .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mp-navy);
+    margin-bottom: 6px;
+  }
+  .mp-options-section .form-select,
+  .mp-options-section .form-control {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--mp-border);
+    border-radius: 8px;
+    transition: border-color var(--mp-tr);
+  }
+  .mp-options-section .form-select:focus,
+  .mp-options-section .form-control:focus {
+    border-color: var(--mp-teal);
+    box-shadow: 0 0 0 3px rgba(8,145,178,0.12);
+  }
+  .mp-options-section .form-check-label { font-size: 14px; }
+  .mp-options-section .form-check { padding-left: 1.8em; }
+  .mp-options-section .img-thumbnail { max-width: 48px; margin-right: 6px; }
+
+  /* Subscription */
+  .mp-subscription-section { margin-bottom: 20px; }
+  .mp-subscription-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    margin-bottom: 14px;
+  }
+
+  /* Quantity + Cart */
+  .mp-qty-cart .input-group {
+    max-width: 480px;
+  }
+  .mp-qty-cart .input-group-text {
+    background: var(--mp-grey);
+    border-color: var(--mp-border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mp-navy);
+  }
+  .mp-qty-cart .form-control {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    border-color: var(--mp-border);
+  }
+  .mp-qty-cart .form-control:focus {
+    border-color: var(--mp-teal);
+    box-shadow: 0 0 0 3px rgba(8,145,178,0.12);
+  }
+  .mp-qty-cart #button-cart {
+    background: var(--mp-coral);
+    border-color: var(--mp-coral);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 0 8px 8px 0;
+    transition: all var(--mp-tr);
+  }
+  .mp-qty-cart #button-cart:hover {
+    background: #D55A36;
+    border-color: #D55A36;
+  }
+  .mp-qty-cart .alert-warning {
+    font-size: 13px;
+    margin-top: 10px;
+    border-radius: 8px;
+  }
+
+  /* Wishlist / Compare buttons */
+  .mp-secondary-btns {
+    margin-bottom: 20px;
+  }
+  .mp-secondary-btns .btn-group { gap: 8px; }
+  .mp-secondary-btns .btn-light {
+    border: 1px solid var(--mp-border);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--mp-navy);
+    transition: all var(--mp-tr);
+    padding: 10px 16px;
+  }
+  .mp-secondary-btns .btn-light:hover {
+    background: var(--mp-teal);
+    color: var(--mp-white);
+    border-color: var(--mp-teal);
+  }
+
+  /* ── Tabs ───────────────────────────────────────── */
+  .mp-tabs-section { padding-bottom: 48px; }
+  .mp-tabs-section .nav-tabs {
+    border-bottom: 2px solid var(--mp-border);
+    gap: 0;
+  }
+  .mp-tabs-section .nav-tabs .nav-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mp-text-lt);
+    padding: 14px 24px;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all var(--mp-tr);
+    background: none;
+    border-radius: 0;
+  }
+  .mp-tabs-section .nav-tabs .nav-link:hover {
+    color: var(--mp-navy);
+    border-bottom-color: transparent;
+  }
+  .mp-tabs-section .nav-tabs .nav-link.active {
+    color: var(--mp-navy);
+    border-bottom-color: var(--mp-teal);
+    background: none;
+  }
+
+  /* Description tab */
+  .mp-tabs-section .tab-pane {
+    padding-top: 24px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--mp-text);
+  }
+  .mp-tabs-section .tab-pane img { max-width: 100%; border-radius: var(--mp-radius); }
+  .mp-tabs-section .tab-pane a { color: var(--mp-teal); }
+
+  /* Specification tab */
+  .mp-tabs-section .table-responsive { margin-top: 0; }
+  .mp-tabs-section .table-bordered {
+    border-color: var(--mp-border);
+  }
+  .mp-tabs-section .table-bordered td,
+  .mp-tabs-section .table-bordered th {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-color: var(--mp-border);
+  }
+  .mp-tabs-section .table-bordered thead td {
+    background: var(--mp-navy);
+    color: var(--mp-white);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .mp-tabs-section .table-bordered tbody tr:nth-child(even) {
+    background: var(--mp-grey);
+  }
+  .mp-tabs-section .table-bordered tbody td:first-child {
+    font-weight: 600;
+    color: var(--mp-navy);
+    width: 40%;
+  }
+
+  /* Tags */
+  .mp-tags { margin-top: 20px; }
+  .mp-tags a {
+    display: inline-block;
+    background: var(--mp-grey);
+    color: var(--mp-teal);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    margin: 2px 4px 2px 0;
+    transition: all var(--mp-tr);
+    border: 1px solid var(--mp-border);
+  }
+  .mp-tags a:hover {
+    background: var(--mp-teal);
+    color: var(--mp-white);
+    border-color: var(--mp-teal);
+  }
+
+  /* ── Related Products ──────────────────────────── */
+  .mp-related-section {
+    padding: 40px 0;
+    border-top: 1px solid var(--mp-border);
+  }
+  .mp-related-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    margin-bottom: 20px;
+  }
+  .mp-related-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+  }
+  .mp-related-card {
+    flex-shrink: 0;
+    width: 240px;
+    scroll-snap-align: start;
+    background: var(--mp-white);
+    border: 1px solid var(--mp-border);
+    border-radius: var(--mp-radius);
+    overflow: hidden;
+    transition: all var(--mp-tr);
+  }
+  .mp-related-card:hover {
+    box-shadow: var(--mp-shadow-lg);
+    transform: translateY(-2px);
+  }
+  .mp-related-img {
+    background: var(--mp-grey);
+    padding: 16px;
+    text-align: center;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mp-related-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .mp-related-body { padding: 14px; }
+  .mp-related-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mp-navy);
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .mp-related-name:hover { color: var(--mp-teal); }
+  .mp-related-desc {
+    font-size: 11px;
+    color: var(--mp-text-lt);
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .mp-related-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mp-navy);
+    margin-bottom: 8px;
+  }
+  .mp-related-price .old {
+    font-size: 12px;
+    color: var(--mp-text-lt);
+    text-decoration: line-through;
+    margin-left: 6px;
+    font-weight: 400;
+  }
+  .mp-related-rating .fa-stack { width: 14px; height: 14px; line-height: 14px; font-size: 7px; }
+  .mp-related-rating .fa-solid.fa-star { color: var(--mp-star); }
+  .mp-related-rating .fa-regular.fa-star { color: var(--mp-border); }
+  .mp-related-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .mp-related-btns .btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 6px;
+    transition: all var(--mp-tr);
+  }
+  .mp-related-btns .btn-primary {
+    flex: 1;
+    background: var(--mp-coral);
+    border-color: var(--mp-coral);
+  }
+  .mp-related-btns .btn-primary:hover { background: #D55A36; border-color: #D55A36; }
+  .mp-related-btns .btn-light {
+    border: 1px solid var(--mp-border);
+    color: var(--mp-navy);
+    padding: 7px 10px;
+  }
+  .mp-related-btns .btn-light:hover {
+    background: var(--mp-teal);
+    color: var(--mp-white);
+    border-color: var(--mp-teal);
+  }
+
+  /* ── Responsive ────────────────────────────────── */
+  @media (max-width: 575px) {
+    .mp-product-info h1 { font-size: 22px; }
+    .mp-price-new, .mp-price-block .price-new { font-size: 26px; }
+    .mp-qty-cart .input-group { max-width: 100%; }
+    .mp-tabs-section .nav-tabs .nav-link { padding: 12px 14px; font-size: 13px; }
+  }
+</style>
+
+<div id="product-info" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# ══════════════════════════════════════════════════════════
+         PRODUCT MAIN: Gallery + Info
+         ══════════════════════════════════════════════════════════ #}
+      <div class="mp-product-main mb-3">
+
+        {# ── Left: Image Gallery (55%) ───────────────────────── #}
+        {% if thumb or images %}
+          <div class="mp-gallery magnific-popup">
+            {% if thumb %}
+              <div class="mp-gallery-main">
+                <a href="{{ popup }}" title="{{ heading_title }}">
+                  <img src="{{ thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" id="mp-main-img"/>
+                </a>
+              </div>
+            {% endif %}
+            {% if images %}
+              <div class="mp-gallery-thumbs">
+                {% if thumb %}
+                  <a href="{{ popup }}" title="{{ heading_title }}" class="active">
+                    <img src="{{ thumb }}" alt="{{ heading_title }}"/>
+                  </a>
+                {% endif %}
+                {% for image in images %}
+                  <a href="{{ image.popup }}" title="{{ heading_title }}">
+                    <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}"/>
+                  </a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {# ── Right: Product Info (45%) ───────────────────────── #}
+        <div class="mp-product-info">
+          <h1>{{ heading_title }}</h1>
+
+          {# Meta info #}
+          <ul class="mp-meta-list">
+            {% if manufacturer %}
+              <li class="mp-manufacturer">{{ text_manufacturer }} <a href="{{ manufacturers }}">{{ manufacturer }}</a></li>
+            {% endif %}
+            <li>{{ text_model }} {{ model }}</li>
+            {% for product_code in product_codes %}
+              <li>{{ product_code.code }}: {{ product_code.value }}</li>
+            {% endfor %}
+            {% if reward %}
+              <li>{{ text_reward }} {{ reward }}</li>
+            {% endif %}
+            <li>{{ text_stock }} {{ stock }}</li>
+          </ul>
+
+          {# Rating #}
+          {% if review_status %}
+            <div class="mp-rating-row">
+              {% for i in 1..5 %}
+                {% if rating < i %}
+                  <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                {% else %}
+                  <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                {% endif %}
+              {% endfor %}
+              <a href="#" onclick="$('a[href=\'#tab-review\']').tab('show'); return false;">{{ text_reviews }}</a> / <a href="#" onclick="$('a[href=\'#tab-review\']').tab('show'); return false;">{{ text_write }}</a>
+            </div>
+          {% endif %}
+
+          {# Price Block #}
+          {% if price %}
+            <div class="mp-price-block">
+              {% if not special %}
+                <h2 style="margin:0"><span class="mp-price-new">{{ price }}</span></h2>
+              {% else %}
+                <span class="price-old" style="font-size:18px;">{{ price }}</span><br/>
+                <h2 style="margin:4px 0 0"><span class="price-new">{{ special }}</span></h2>
+              {% endif %}
+              {% if tax %}
+                <span class="mp-price-tax">{{ text_tax }} {{ tax }}</span>
+              {% endif %}
+              {% if points %}
+                <span class="mp-price-points">{{ text_points }} {{ points }}</span>
+              {% endif %}
+              {% if discounts %}
+                <hr style="border-color:var(--mp-border);">
+                {% for discount in discounts %}
+                  <div class="mp-price-discount">{{ discount.quantity }}{{ text_discount }}{{ discount.price }}</div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {# Wishlist / Compare #}
+          <div class="mp-secondary-btns">
+            <form method="post" data-oc-toggle="ajax">
+              <div class="btn-group">
+                <button type="submit" formaction="{{ wishlist_add }}" data-bs-toggle="tooltip" class="btn btn-light btn-lg" title="{{ button_wishlist }}" data-testid="add-to-wishlist"><i class="fa-solid fa-heart"></i></button>
+                <button type="submit" formaction="{{ compare_add }}" data-bs-toggle="tooltip" class="btn btn-light btn-lg" title="{{ button_compare }}" data-testid="add-to-compare"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+              </div>
+              <input type="hidden" name="product_id" value="{{ product_id }}"/>
+            </form>
+          </div>
+
+          {# ── Product Options & Cart Form ───────────────────── #}
+          <div id="product">
+            <form id="form-product">
+              {% if options %}
+                <hr style="border-color:var(--mp-border);">
+                <div class="mp-options-section">
+                  <h3>{{ text_option }}</h3>
+                  <div>
+                    {% for option in options %}
+
+                      {% if option.type == 'select' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <select name="option[{{ option.product_option_id }}]" id="input-option-{{ option.product_option_id }}" class="form-select" data-testid="option-{{ option.product_option_id }}">
+                            <option value="">{{ text_select }}</option>
+                            {% for option_value in option.product_option_value %}
+                              <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}
+                                {% if option_value.price %}
+                                  ({{ option_value.price_prefix }}{{ option_value.price }})
+                                {% endif %}</option>
+                            {% endfor %}
+                          </select>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'radio' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label class="form-label">{{ option.name }}</label>
+                          <div id="input-option-{{ option.product_option_id }}">
+                            {% for option_value in option.product_option_value %}
+                              <div class="form-check">
+                                <input type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-input"/>
+                                <label for="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-label">
+                                  {% if option_value.image %}
+                                    <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %}{{ option_value.price_prefix }} {{ option_value.price }}{% endif %}" class="img-thumbnail"/>{% endif %}
+                                  {{ option_value.name }}
+                                  {% if option_value.price %}
+                                    ({{ option_value.price_prefix }}{{ option_value.price }})
+                                  {% endif %}</label>
+                              </div>
+                            {% endfor %}
+                          </div>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'checkbox' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label class="form-label">{{ option.name }}</label>
+                          <div id="input-option-{{ option.product_option_id }}">
+                            {% for option_value in option.product_option_value %}
+                              <div class="form-check">
+                                <input type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" id="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-input"/>
+                                <label for="input-option-value-{{ option_value.product_option_value_id }}" class="form-check-label">
+                                  {% if option_value.image %}
+                                    <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %}{{ option_value.price_prefix }} {{ option_value.price }}{% endif %}" class="img-thumbnail"/>{% endif %}
+                                  {{ option_value.name }}
+                                  {% if option_value.price %}
+                                    ({{ option_value.price_prefix }}{{ option_value.price }})
+                                  {% endif %}</label>
+                              </div>
+                            {% endfor %}
+                          </div>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'text' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <input type="text" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'textarea' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <textarea name="option[{{ option.product_option_id }}]" rows="5" placeholder="{{ option.name }}" id="input-option-{{ option.product_option_id }}" class="form-control">{{ option.value }}</textarea>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'file' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="button-upload-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <div>
+                            <button type="button" id="button-upload-{{ option.product_option_id }}" data-oc-toggle="upload" data-oc-url="{{ upload }}" data-oc-target="#input-option-{{ option.product_option_id }}" data-oc-size-max="{{ config_file_max_size }}" data-oc-size-error="{{ error_upload_size }}" class="btn btn-light btn-block"><i class="fa-solid fa-upload"></i> {{ button_upload }}</button>
+                            <input type="hidden" name="option[{{ option.product_option_id }}]" value="" id="input-option-{{ option.product_option_id }}"/>
+                          </div>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'date' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <input type="date" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'time' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <input type="time" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                      {% if option.type == 'datetime' %}
+                        <div class="mb-3{% if option.required %} required{% endif %}">
+                          <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label>
+                          <input type="datetime-local" name="option[{{ option.product_option_id }}]" value="{{ option.value }}" id="input-option-{{ option.product_option_id }}" class="form-control"/>
+                          <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+                        </div>
+                      {% endif %}
+
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+
+              {# Subscription Plans #}
+              {% if subscription_plans %}
+                <hr style="border-color:var(--mp-border);"/>
+                <div class="mp-subscription-section">
+                  <h3>{{ text_subscription }}</h3>
+                  <div class="mb-3 required">
+                    <select name="subscription_plan_id" id="input-subscription" class="form-select" data-testid="subscription-select">
+                      <option value="">{{ text_select }}</option>
+                      {% for subscription_plan in subscription_plans %}
+                        <option value="{{ subscription_plan.subscription_plan_id }}">{{ subscription_plan.name }}</option>
+                      {% endfor %}
+                    </select>
+                    {% for subscription_plan in subscription_plans %}
+                      <div id="subscription-description-{{ subscription_plan.subscription_plan_id }}" class="form-text subscription d-none">{{ subscription_plan.description }}</div>
+                    {% endfor %}
+                    <div id="error-subscription" class="invalid-feedback"></div>
+                  </div>
+                </div>
+              {% endif %}
+
+              {# Quantity + Add to Cart #}
+              <div class="mp-qty-cart mb-3">
+                <div class="input-group">
+                  <div class="input-group-text">{{ entry_qty }}</div>
+                  <input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="form-control" data-testid="qty-input"/>
+                  <button type="submit" id="button-cart" class="btn btn-primary btn-lg btn-block" data-testid="add-to-cart-btn">{{ button_cart }}</button>
+                </div>
+                <input type="hidden" name="product_id" value="{{ product_id }}" id="input-product-id"/>
+                <div id="error-quantity" class="form-text"></div>
+              </div>
+              {% if minimum > 1 %}
+                <div class="alert alert-warning"><i class="fa-solid fa-circle-info"></i> {{ text_minimum }}</div>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {# ══════════════════════════════════════════════════════════
+         TABS: Description, Specifications, Reviews
+         ══════════════════════════════════════════════════════════ #}
+      <div class="mp-tabs-section">
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a href="#tab-description" data-bs-toggle="tab" class="nav-link active">{{ tab_description }}</a></li>
+          {% if attribute_groups %}
+            <li class="nav-item"><a href="#tab-specification" data-bs-toggle="tab" class="nav-link">{{ tab_attribute }}</a></li>
+          {% endif %}
+          {% if review_status %}
+            <li class="nav-item"><a href="#tab-review" data-bs-toggle="tab" class="nav-link">{{ tab_review }}</a></li>
+          {% endif %}
+        </ul>
+        <div class="tab-content">
+
+          {# Description Tab #}
+          <div id="tab-description" class="tab-pane fade show active mb-4">
+            {{ description }}
+            {% if tags %}
+              <div class="mp-tags">
+                <strong>{{ text_tags }}</strong>
+                {% for tag in tags %}
+                  <a href="{{ tag.href }}">{{ tag.tag }}</a>{% if not loop.last %} {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+
+          {# Specifications Tab #}
+          {% if attribute_groups %}
+            <div id="tab-specification" class="tab-pane fade">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  {% for attribute_group in attribute_groups %}
+                    <thead>
+                      <tr>
+                        <td colspan="2"><strong>{{ attribute_group.name }}</strong></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for attribute in attribute_group.attribute %}
+                        <tr>
+                          <td>{{ attribute.name }}</td>
+                          <td>{{ attribute.text }}</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  {% endfor %}
+                </table>
+              </div>
+            </div>
+          {% endif %}
+
+          {# Reviews Tab #}
+          {% if review_status %}
+            <div id="tab-review" class="tab-pane fade mb-4">{{ review }}</div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {# ══════════════════════════════════════════════════════════
+         RELATED PRODUCTS (rendered by OC module)
+         ══════════════════════════════════════════════════════════ #}
+      {{ related }}
+
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+
+<script type="text/javascript"><!--
+$('#input-subscription').on('change', function(e) {
+    var element = this;
+
+    $('.subscription').addClass('d-none');
+
+    $('#subscription-description-' + $(element).val()).removeClass('d-none');
+});
+
+$('#form-product').on('submit', function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: 'index.php?route=checkout/cart.add&language={{ language }}',
+        type: 'post',
+        data: $('#form-product').serialize(),
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        cache: false,
+        processData: false,
+        beforeSend: function() {
+            $('#button-cart').button('loading');
+        },
+        complete: function() {
+            $('#button-cart').button('reset');
+        },
+        success: function(json) {
+            console.log(json);
+
+            $('#form-product').find('.is-invalid').removeClass('is-invalid');
+            $('#form-product').find('.invalid-feedback').removeClass('d-block');
+
+            if (json['error']) {
+                for (key in json['error']) {
+                    $('#input-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
+                    $('#error-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
+                }
+            }
+
+            if (json['success']) {
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('#cart').load('index.php?route=common/cart.info&language={{ language }}');
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$(document).ready(function() {
+    $('.magnific-popup').magnificPopup({
+        type: 'image',
+        delegate: 'a',
+        gallery: {
+            enabled: true
+        }
+    });
+});
+//--></script>
+{{ footer }}

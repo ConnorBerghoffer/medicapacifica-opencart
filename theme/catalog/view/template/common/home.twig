@@ -1,0 +1,443 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Homepage
+     OpenCart 4.1.x TWIG Template
+     Colors: Navy #0A2240, Teal #0891B2, Coral #E86C47
+     White #FFFFFF, Grey #F8FAFC | Font: Inter
+     ============================================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  #mp-home * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+  /* Hero */
+  .mp-hero {
+    background: linear-gradient(135deg, #0A2240 0%, #0A2240 55%, #0891B2 100%);
+    padding: 100px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(8,145,178,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -25%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(232,108,71,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    text-align: center;
+  }
+  .mp-hero-badge {
+    display: inline-block;
+    background: rgba(8,145,178,0.2);
+    border: 1px solid rgba(8,145,178,0.4);
+    color: #67e8f9;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 50px;
+    margin-bottom: 28px;
+  }
+  .mp-hero h1 {
+    color: #FFFFFF;
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 20px;
+    letter-spacing: -1px;
+  }
+  .mp-hero h1 span {
+    background: linear-gradient(135deg, #0891B2, #67e8f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .mp-hero-sub {
+    color: rgba(255,255,255,0.75);
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 auto 40px;
+    font-weight: 400;
+  }
+  .mp-hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .mp-btn-coral {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #E86C47;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 36px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 20px rgba(232,108,71,0.4);
+  }
+  .mp-btn-coral:hover {
+    background: #d45a37;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(232,108,71,0.5);
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  .mp-btn-outline-w {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px 36px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .mp-btn-outline-w:hover {
+    border-color: #FFFFFF;
+    background: rgba(255,255,255,0.1);
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+
+  /* Trust Stats */
+  .mp-stats {
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 40px 0;
+  }
+  .mp-stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .mp-stat { text-align: center; }
+  .mp-stat-num {
+    color: #0891B2;
+    font-size: 36px;
+    font-weight: 800;
+    display: block;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .mp-stat-lbl {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Module wrappers */
+  .mp-modules-top { padding: 60px 0; background: #F8FAFC; }
+  .mp-modules-bottom { padding: 60px 0; background: #FFFFFF; }
+
+  /* Section styling */
+  .mp-section { padding: 100px 0; }
+  .mp-section.bg-white { background: #FFFFFF; }
+  .mp-section.bg-grey { background: #F8FAFC; }
+  .mp-section-hdr { text-align: center; margin-bottom: 60px; }
+  .mp-section-tag {
+    display: inline-block;
+    color: #0891B2;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .mp-section-title {
+    color: #0A2240;
+    font-size: 40px;
+    font-weight: 800;
+    margin: 0 0 16px;
+    letter-spacing: -0.5px;
+  }
+  .mp-section-desc {
+    color: #64748b;
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Feature cards */
+  .mp-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .mp-fcard {
+    background: #F8FAFC;
+    border-radius: 20px;
+    padding: 44px 36px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  .mp-fcard:hover {
+    background: #FFFFFF;
+    border-color: rgba(8,145,178,0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(10,34,64,0.08);
+  }
+  .mp-fcard-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  .mp-fcard-icon.teal { background: rgba(8,145,178,0.1); color: #0891B2; }
+  .mp-fcard-icon.coral { background: rgba(232,108,71,0.1); color: #E86C47; }
+  .mp-fcard-icon.navy { background: rgba(10,34,64,0.1); color: #0A2240; }
+  .mp-fcard h3 { color: #0A2240; font-size: 22px; font-weight: 700; margin: 0 0 14px; }
+  .mp-fcard p { color: #64748b; font-size: 15px; line-height: 1.7; margin: 0; }
+
+  /* Industries */
+  .mp-industries {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .mp-icard {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 36px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    cursor: default;
+  }
+  .mp-icard:hover {
+    border-color: #0891B2;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(10,34,64,0.1);
+  }
+  .mp-icard-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0A2240, #0891B2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+  .mp-icard h4 { color: #0A2240; font-size: 16px; font-weight: 700; margin: 0; }
+
+  /* CTA */
+  .mp-cta {
+    background: linear-gradient(135deg, #0891B2 0%, #0A2240 100%);
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-cta-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .mp-cta h2 { color: #FFFFFF; font-size: 38px; font-weight: 800; margin: 0 0 16px; }
+  .mp-cta p { color: rgba(255,255,255,0.7); font-size: 18px; margin: 0 0 36px; line-height: 1.6; }
+
+  /* Responsive */
+  @media (max-width: 991px) {
+    .mp-hero h1 { font-size: 40px; }
+    .mp-features { grid-template-columns: 1fr; max-width: 480px; }
+    .mp-industries { grid-template-columns: repeat(3, 1fr); }
+    .mp-stats-row { gap: 40px; }
+  }
+  @media (max-width: 575px) {
+    .mp-hero { padding: 60px 0 0; }
+    .mp-hero-inner { padding: 0 24px 50px; }
+    .mp-hero h1 { font-size: 32px; }
+    .mp-hero-sub { font-size: 16px; }
+    .mp-hero-btns { flex-direction: column; align-items: center; }
+    .mp-industries { grid-template-columns: repeat(2, 1fr); }
+    .mp-stat-num { font-size: 28px; }
+    .mp-section-title { font-size: 30px; }
+    .mp-cta h2 { font-size: 28px; }
+    .mp-section { padding: 60px 0; }
+  }
+</style>
+
+<div id="mp-home">
+
+  {# ── HERO SECTION ────────────────────────────────────────────── #}
+  <section class="mp-hero">
+    <div class="mp-hero-inner">
+      <div class="mp-hero-badge"><i class="fa-solid fa-shield-halved"></i>&ensp;Fiji's Trusted Medical Supply Partner</div>
+      <h1>Pacific Healthcare,<br><span>World-Class Supply</span></h1>
+      <p class="mp-hero-sub">Fiji's first dedicated medical supply company. We deliver quality medical equipment, consumables, and laboratory products across the Pacific Islands.</p>
+      <div class="mp-hero-btns">
+        <a href="index.php?route=product/category" class="mp-btn-coral" data-testid="hero-browse-products">
+          <i class="fa-solid fa-th-large"></i> Browse Products
+        </a>
+        <a href="index.php?route=information/contact" class="mp-btn-outline-w" data-testid="hero-request-quote">
+          <i class="fa-solid fa-envelope"></i> Request a Quote
+        </a>
+      </div>
+    </div>
+    <div class="mp-stats">
+      <div class="mp-stats-row">
+        <div class="mp-stat">
+          <span class="mp-stat-num">25+</span>
+          <span class="mp-stat-lbl">Years Experience</span>
+        </div>
+        <div class="mp-stat">
+          <span class="mp-stat-num">20+</span>
+          <span class="mp-stat-lbl">Product Categories</span>
+        </div>
+        <div class="mp-stat">
+          <span class="mp-stat-num">100%</span>
+          <span class="mp-stat-lbl">Pacific-Wide Service</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ── OPENCART CONTENT TOP MODULES (slideshow, featured, etc.) ── #}
+  {% if content_top %}
+    <div class="mp-modules-top">
+      <div class="container">{{ content_top }}</div>
+    </div>
+  {% endif %}
+
+  {# ── WHY MEDICA PACIFICA ─────────────────────────────────────── #}
+  <section class="mp-section bg-white">
+    <div class="mp-section-hdr">
+      <div class="mp-section-tag">Why Choose Us</div>
+      <h2 class="mp-section-title">The Medica Pacifica Advantage</h2>
+      <p class="mp-section-desc">More than a supplier. We are your dedicated healthcare partner in the Pacific.</p>
+    </div>
+    <div class="mp-features">
+      <div class="mp-fcard">
+        <div class="mp-fcard-icon teal"><i class="fa-solid fa-warehouse"></i></div>
+        <h3>Local Warehousing</h3>
+        <p>Large in-country inventory across Fiji ensures rapid delivery and consistent stock availability for critical medical supplies.</p>
+      </div>
+      <div class="mp-fcard">
+        <div class="mp-fcard-icon coral"><i class="fa-solid fa-user-graduate"></i></div>
+        <h3>Expert Training</h3>
+        <p>Comprehensive on-site training and product demonstrations by qualified specialists to ensure your team uses equipment safely and effectively.</p>
+      </div>
+      <div class="mp-fcard">
+        <div class="mp-fcard-icon navy"><i class="fa-solid fa-headset"></i></div>
+        <h3>Complete Support</h3>
+        <p>End-to-end service from consultation and procurement through to installation, calibration, and ongoing after-sales support.</p>
+      </div>
+    </div>
+  </section>
+
+  {# ── INDUSTRIES WE SERVE ─────────────────────────────────────── #}
+  <section class="mp-section bg-grey">
+    <div class="mp-section-hdr">
+      <div class="mp-section-tag">Industries We Serve</div>
+      <h2 class="mp-section-title">Healthcare Solutions for Every Setting</h2>
+      <p class="mp-section-desc">Tailored supply programs for healthcare facilities across the Pacific region.</p>
+    </div>
+    <div class="mp-industries">
+      <div class="mp-icard">
+        <div class="mp-icard-icon"><i class="fa-solid fa-hospital"></i></div>
+        <h4>Hospitals</h4>
+      </div>
+      <div class="mp-icard">
+        <div class="mp-icard-icon"><i class="fa-solid fa-flask"></i></div>
+        <h4>Laboratories</h4>
+      </div>
+      <div class="mp-icard">
+        <div class="mp-icard-icon"><i class="fa-solid fa-tooth"></i></div>
+        <h4>Dental</h4>
+      </div>
+      <div class="mp-icard">
+        <div class="mp-icard-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <h4>Aged Care</h4>
+      </div>
+      <div class="mp-icard">
+        <div class="mp-icard-icon"><i class="fa-solid fa-landmark"></i></div>
+        <h4>Government</h4>
+      </div>
+    </div>
+  </section>
+
+  {# ── CTA SECTION ─────────────────────────────────────────────── #}
+  <section class="mp-cta">
+    <div class="mp-cta-inner">
+      <h2>Ready to Equip Your Healthcare Facility?</h2>
+      <p>Contact our team to discuss your requirements and receive a tailored quotation for your facility.</p>
+      <a href="index.php?route=information/contact" class="mp-btn-coral" data-testid="cta-get-in-touch">
+        <i class="fa-solid fa-phone"></i> Get in Touch
+      </a>
+    </div>
+  </section>
+
+  {# ── OPENCART CONTENT BOTTOM MODULES ────────────────────────── #}
+  {% if content_bottom %}
+    <div class="mp-modules-bottom">
+      <div class="container">{{ content_bottom }}</div>
+    </div>
+  {% endif %}
+
+</div>
+{{ footer }}

@@ -1,0 +1,299 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Account Login
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #account-login {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Banner -- */
+  .mp-login-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-login-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -6%;
+    width: 300px;
+    height: 300px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-login-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .mp-login-banner .mp-banner-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Breadcrumbs -- */
+  #account-login .breadcrumb {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  #account-login .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+  }
+  #account-login .breadcrumb a:hover {
+    color: #0A2240;
+    text-decoration: underline;
+  }
+
+  /* -- Alerts -- */
+  #account-login .alert {
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  #account-login .alert-success {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+  }
+  #account-login .alert-danger {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+
+  /* -- Two-column layout -- */
+  .mp-login-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    margin: 2rem 0 3rem;
+    align-items: start;
+  }
+
+  /* -- Cards -- */
+  .mp-login-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .mp-login-card h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0A2240;
+    margin: 0 0 0.25rem;
+  }
+  .mp-login-card .mp-card-subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+    margin: 0 0 1.25rem;
+  }
+  .mp-login-card .mp-card-desc {
+    font-size: 0.92rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0 0 1.5rem;
+  }
+
+  /* -- Form inputs -- */
+  .mp-login-card .form-control {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .mp-login-card .form-control:focus {
+    border-color: #0891B2;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+  }
+  .mp-login-card .col-form-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+
+  /* -- Coral login button -- */
+  .mp-btn-login {
+    background: #E86C47 !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 0.65rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .mp-btn-login:hover {
+    background: #d45a38 !important;
+    color: #ffffff !important;
+  }
+
+  /* -- Forgot password link -- */
+  .mp-forgot-link {
+    color: #0891B2;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .mp-forgot-link:hover {
+    text-decoration: underline;
+    color: #0A2240;
+  }
+
+  /* -- Benefits list -- */
+  .mp-benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+  }
+  .mp-benefits-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.55rem 0;
+    color: #374151;
+    font-size: 0.92rem;
+  }
+  .mp-benefits-list li i {
+    color: #0891B2;
+    font-size: 0.9rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* -- Create Account outline button -- */
+  .mp-btn-create {
+    display: block;
+    width: 100%;
+    padding: 0.65rem 1.5rem;
+    background: transparent;
+    color: #0A2240;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid #0A2240;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    margin-top: auto;
+  }
+  .mp-btn-create:hover {
+    background: #0A2240;
+    color: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    .mp-login-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .mp-login-banner {
+      padding: 32px 0;
+    }
+    .mp-login-banner h1 {
+      font-size: 24px;
+    }
+    .mp-login-card {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="mp-login-banner">
+  <div class="container">
+    <h1>{{ heading_title }}</h1>
+    <p class="mp-banner-sub">Access your Medica Pacifica account</p>
+  </div>
+</div>
+
+<div id="account-login" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+  {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> {{ error_warning }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+  {% endif %}
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+      <div class="mp-login-grid">
+        {# ---- Sign In Form ---- #}
+        <div class="mp-login-card">
+          <form id="form-login" action="{{ login }}" method="post" data-oc-toggle="ajax">
+            <h2>{{ text_returning_customer }}</h2>
+            <p class="mp-card-subtitle">{{ text_i_am_returning_customer }}</p>
+            <div class="mb-3">
+              <label for="input-email" class="col-form-label">{{ entry_email }}</label>
+              <input type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" data-testid="login-email"/>
+            </div>
+            <div class="mb-3">
+              <label for="input-password" class="col-form-label">{{ entry_password }}</label>
+              <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control mb-1" data-testid="login-password"/>
+              <a href="{{ forgotten }}" class="mp-forgot-link" data-testid="login-forgot">{{ text_forgotten }}</a>
+            </div>
+            {% if redirect %}
+              <input type="hidden" name="redirect" value="{{ redirect }}"/>
+            {% endif %}
+            <div class="text-end">
+              <button type="submit" class="btn mp-btn-login" data-testid="login-submit">
+                <i class="fa-solid fa-right-to-bracket me-1"></i> {{ button_login }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {# ---- New Customer Promo ---- #}
+        <div class="mp-login-card">
+          <h2>{{ text_new_customer }}</h2>
+          <p class="mp-card-subtitle">{{ text_register }}</p>
+          <p class="mp-card-desc">{{ text_register_account }}</p>
+
+          <ul class="mp-benefits-list">
+            <li><i class="fa-solid fa-circle-check"></i> Track your medical supply orders</li>
+            <li><i class="fa-solid fa-circle-check"></i> Save products to your wishlist</li>
+            <li><i class="fa-solid fa-circle-check"></i> Faster checkout experience</li>
+            <li><i class="fa-solid fa-circle-check"></i> Request bulk pricing quotes</li>
+            <li><i class="fa-solid fa-circle-check"></i> Manage shipping addresses</li>
+          </ul>
+
+          <a href="{{ register }}" class="mp-btn-create" data-testid="login-register">
+            <i class="fa-solid fa-user-plus me-1"></i> {{ button_continue }}
+          </a>
+        </div>
+      </div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+{{ footer }}

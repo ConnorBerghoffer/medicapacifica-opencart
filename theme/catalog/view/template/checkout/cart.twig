@@ -1,0 +1,320 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Shopping Cart
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #checkout-cart {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Banner -- */
+  .mp-cart-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-cart-banner::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -8%;
+    width: 300px;
+    height: 300px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-cart-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Breadcrumbs -- */
+  #checkout-cart .breadcrumb {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  #checkout-cart .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+  }
+  #checkout-cart .breadcrumb a:hover {
+    color: #0A2240;
+    text-decoration: underline;
+  }
+
+  /* -- Cart list container -- */
+  #shopping-cart {
+    margin: 1.5rem 0 2rem;
+  }
+
+  /* -- Style the AJAX-loaded cart list content -- */
+  #checkout-cart .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  #checkout-cart .table thead th {
+    background: #F8FAFC;
+    color: #0A2240;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.85rem 1rem;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  #checkout-cart .table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+  #checkout-cart .table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  #checkout-cart .table tbody td a {
+    color: #0A2240;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  #checkout-cart .table tbody td a:hover {
+    color: #0891B2;
+  }
+  #checkout-cart .table tbody td img {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* -- Quantity input styling -- */
+  #checkout-cart .input-group {
+    max-width: 140px;
+  }
+  #checkout-cart .input-group .form-control {
+    border-color: #e2e8f0;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  /* -- Remove button -- */
+  #checkout-cart .btn-danger {
+    background: #ffffff;
+    color: #94a3b8;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s;
+    padding: 0.4rem 0.6rem;
+  }
+  #checkout-cart .btn-danger:hover {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+  }
+
+  /* -- Totals table -- */
+  #checkout-cart tfoot td {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    color: #475569;
+  }
+  #checkout-cart tfoot tr:last-child td {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0A2240;
+    border-top: 2px solid #e2e8f0;
+  }
+
+  /* -- Action buttons -- */
+  #checkout-cart .btn-primary {
+    background: #E86C47;
+    border-color: #E86C47;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.65rem 1.8rem;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  #checkout-cart .btn-primary:hover {
+    background: #d45a38;
+    border-color: #d45a38;
+  }
+  #checkout-cart .buttons .btn-primary {
+    background: #E86C47;
+    border-color: #E86C47;
+  }
+  #checkout-cart .buttons a.btn {
+    font-family: 'Inter', sans-serif;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* -- Empty cart state -- */
+  #checkout-cart #shopping-cart p {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 1rem;
+    color: #64748b;
+  }
+
+  /* -- Alert overrides -- */
+  #checkout-cart .alert {
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+  }
+  #checkout-cart .alert-success {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+  }
+  #checkout-cart .alert-danger {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+  }
+
+  @media (max-width: 768px) {
+    .mp-cart-banner {
+      padding: 32px 0;
+    }
+    .mp-cart-banner h1 {
+      font-size: 24px;
+    }
+    #checkout-cart .table {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<div class="mp-cart-banner">
+  <div class="container">
+    <h1>{{ heading_title }}</h1>
+  </div>
+</div>
+
+<div id="checkout-cart" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+      <div id="shopping-cart" data-testid="shopping-cart">{{ list }}</div>
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#shopping-cart').on('submit', '#output-cart form', function(e) {
+    e.preventDefault();
+
+    var element = this;
+
+    if (e.originalEvent !== undefined && e.originalEvent.submitter !== undefined) {
+        var button = e.originalEvent.submitter;
+    } else {
+        var button = '';
+    }
+
+    $.ajax({
+        url: $(button).attr('formaction'),
+        type: 'post',
+        data: $(element).serialize(),
+        dataType: 'json',
+        beforeSend: function() {
+            $(button).button('loading');
+        },
+        complete: function() {
+            $(button).button('reset');
+        },
+        success: function(json) {
+            console.log(json);
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            }
+
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            if (json['success']) {
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('#shopping-cart').load('index.php?route=checkout/cart.list&language={{ language }}', {}, function() {
+                    $('#cart').load('index.php?route=common/cart.info&language={{ language }}');
+                });
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$('#shopping-cart').on('click', '.btn-danger', function(e) {
+    e.preventDefault();
+
+    var element = this;
+
+    $.ajax({
+        url: $(element).attr('href'),
+        dataType: 'json',
+        beforeSend: function() {
+            $(element).button('loading');
+        },
+        complete: function() {
+            $(element).button('reset');
+        },
+        success: function(json) {
+            console.log(json);
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            }
+
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            if (json['success']) {
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('#shopping-cart').load('index.php?route=checkout/cart.list&language={{ language }}');
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$('#shopping-cart').observe(function(e) {
+    $('#cart').load('index.php?route=common/cart.info&language={{ language }}');
+});
+
+$('#cart').on('submit', 'form', function(e) {
+    window.setTimeout(function() {
+        $('#shopping-cart').load('index.php?route=checkout/cart.list&language={{ language }}');
+    }, 3000);
+});
+//--></script>
+{{ footer }}

@@ -1,0 +1,433 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Contact Us
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #information-contact {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Banner -- */
+  .mp-contact-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-contact-banner::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 280px;
+    height: 280px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-contact-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .mp-contact-banner .mp-banner-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Breadcrumbs -- */
+  #information-contact .breadcrumb {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  #information-contact .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+  }
+  #information-contact .breadcrumb a:hover {
+    color: #0A2240;
+    text-decoration: underline;
+  }
+
+  /* -- Two-column layout -- */
+  .mp-contact-layout {
+    display: flex;
+    gap: 40px;
+    margin: 2.5rem 0 3rem;
+  }
+  .mp-contact-form-col {
+    flex: 0 0 58%;
+    max-width: 58%;
+  }
+  .mp-contact-info-col {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* -- Form styles -- */
+  .mp-form-heading {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0A2240;
+    margin: 0 0 1.5rem;
+  }
+  #form-contact .row.mb-3 label.col-form-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+  #form-contact .form-control {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  #form-contact .form-control:focus {
+    border-color: #0891B2;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+  }
+  .mp-required-note {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+  }
+  .mp-required-note span {
+    color: #E86C47;
+  }
+  .mp-btn-submit {
+    background: #E86C47 !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 0.7rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .mp-btn-submit:hover {
+    background: #d45a38 !important;
+    color: #ffffff !important;
+  }
+
+  /* -- Info Cards -- */
+  .mp-info-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s;
+  }
+  .mp-info-card:hover {
+    box-shadow: 0 4px 14px rgba(10, 34, 64, 0.08);
+  }
+  .mp-info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.5rem;
+  }
+  .mp-info-card-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: rgba(8, 145, 178, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #0891B2;
+    font-size: 1.1rem;
+  }
+  .mp-info-card h4 {
+    color: #0A2240;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .mp-info-card p {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .mp-info-card a {
+    color: #0891B2;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .mp-info-card a:hover {
+    text-decoration: underline;
+  }
+  .mp-info-card .mp-hours {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  /* -- Store location card -- */
+  .mp-store-card {
+    background: #F8FAFC;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .mp-store-card strong {
+    color: #0A2240;
+  }
+  .mp-store-card address {
+    color: #475569;
+    font-style: normal;
+    line-height: 1.6;
+  }
+
+  /* -- Map placeholder -- */
+  .mp-map-section {
+    background: #f0f4f8;
+    border: 2px dashed #d1d5db;
+    border-radius: 12px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 2rem;
+    color: #94a3b8;
+  }
+  .mp-map-section i {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: #cbd5e1;
+  }
+  .mp-map-section p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  /* -- Accordion for locations -- */
+  #information-contact .accordion-button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #0A2240;
+  }
+  #information-contact .accordion-button:not(.collapsed) {
+    background: rgba(8, 145, 178, 0.06);
+    color: #0891B2;
+  }
+
+  @media (max-width: 768px) {
+    .mp-contact-layout {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .mp-contact-form-col {
+      flex: none;
+      max-width: 100%;
+    }
+    .mp-contact-banner {
+      padding: 32px 0;
+    }
+    .mp-contact-banner h1 {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<div class="mp-contact-banner">
+  <div class="container">
+    <h1>{{ heading_title }}</h1>
+    <p class="mp-banner-sub">We are here to help with your medical supply needs</p>
+  </div>
+</div>
+
+<div id="information-contact" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}
+
+      {# -- Main Store Info -- #}
+      <h3>{{ text_location }}</h3>
+      <div class="mp-store-card">
+        <div class="row">
+          {% if image %}
+            <div class="col-sm-3"><img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-thumbnail"/></div>
+          {% endif %}
+          <div class="col-sm-3">
+            <strong>{{ store }}</strong><br/>
+            <address>{{ address }}</address>
+            {% if geocode %}
+              <a href="https://maps.google.com/maps?q={{ geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-info btn-sm" style="background:#0891B2;border-color:#0891B2;">
+                <i class="fa-solid fa-location-dot"></i> {{ button_map }}
+              </a>
+            {% endif %}
+          </div>
+          {% if telephone %}
+            <div class="col-sm-3">
+              <strong>{{ text_telephone }}</strong><br/>
+              {{ telephone }}<br/><br/>
+            </div>
+          {% endif %}
+          <div class="col-sm-3">
+            {% if open %}
+              <strong>{{ text_open }}</strong><br/>
+              {{ open }}<br/><br/>
+            {% endif %}
+            {% if comment %}
+              <strong>{{ text_comment }}</strong><br/>
+              {{ comment }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {# -- Additional Locations -- #}
+      {% if locations %}
+        <h3>{{ text_store }}</h3>
+        <div id="accordion" class="accordion mb-3">
+          {% for location in locations %}
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse-location-{{ location.location_id }}">{{ location.name }}</button>
+              </h2>
+              <div id="collapse-location-{{ location.location_id }}" class="accordion-collapse collapse" data-bs-parent="#accordion">
+                <div class="accordion-body">
+                  <div class="row">
+                    {% if location.image %}
+                      <div class="col-sm-3"><img src="{{ location.image }}" alt="{{ location.name }}" title="{{ location.name }}" class="img-thumbnail"/></div>
+                    {% endif %}
+                    <div class="col-sm-3">
+                      <strong>{{ location.name }}</strong><br/>
+                      <address>{{ location.address }}</address>
+                      {% if location.geocode %}
+                        <a href="https://maps.google.com/maps?q={{ location.geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-outline-secondary btn-sm">
+                          <i class="fa-solid fa-location-dot"></i> {{ button_map }}
+                        </a>
+                      {% endif %}
+                    </div>
+                    <div class="col-sm-3">
+                      <strong>{{ text_telephone }}</strong><br/>
+                      {{ location.telephone }}<br/><br/>
+                    </div>
+                    <div class="col-sm-3">
+                      {% if location.open %}
+                        <strong>{{ text_open }}</strong><br/>
+                        {{ location.open }}<br/>
+                      {% endif %}
+                      {% if location.comment %}
+                        {{ location.comment }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {# -- Map Placeholder -- #}
+      <div class="mp-map-section">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <p>18 Disraeli Road, Suva, Fiji</p>
+      </div>
+
+      {# -- Contact Form + Info Cards Layout -- #}
+      <div class="mp-contact-layout">
+        <div class="mp-contact-form-col">
+          <form id="form-contact" action="{{ send }}" method="post" data-oc-toggle="ajax">
+            <fieldset>
+              <legend class="mp-form-heading">{{ text_contact }}</legend>
+              <p class="mp-required-note"><span>*</span> indicates a required field</p>
+              <div class="row mb-3 required">
+                <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" placeholder="Your full name" data-testid="contact-name"/>
+                  <div id="error-name" class="invalid-feedback"></div>
+                </div>
+              </div>
+              <div class="row mb-3 required">
+                <label for="input-email" class="col-sm-2 col-form-label">{{ entry_email }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" placeholder="your.email@company.com" data-testid="contact-email"/>
+                  <div id="error-email" class="invalid-feedback"></div>
+                </div>
+              </div>
+              <div class="row mb-3 required">
+                <label for="input-enquiry" class="col-sm-2 col-form-label">{{ entry_enquiry }}</label>
+                <div class="col-sm-10">
+                  <textarea name="enquiry" rows="10" id="input-enquiry" class="form-control" placeholder="How can we help you?" data-testid="contact-enquiry"></textarea>
+                  <div id="error-enquiry" class="invalid-feedback"></div>
+                </div>
+              </div>
+              {{ captcha }}
+            </fieldset>
+            <div class="text-end">
+              <button type="submit" class="btn mp-btn-submit" data-testid="contact-submit">
+                <i class="fa-solid fa-paper-plane me-1"></i> {{ button_submit }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mp-contact-info-col">
+          {# Visit Us Card #}
+          <div class="mp-info-card">
+            <div class="mp-info-card-header">
+              <div class="mp-info-card-icon"><i class="fa-solid fa-location-dot"></i></div>
+              <h4>Visit Us</h4>
+            </div>
+            <p>18 Disraeli Road<br/>Suva, Fiji</p>
+          </div>
+
+          {# Call Us Card #}
+          <div class="mp-info-card">
+            <div class="mp-info-card-header">
+              <div class="mp-info-card-icon"><i class="fa-solid fa-phone"></i></div>
+              <h4>Call Us</h4>
+            </div>
+            <p><a href="tel:+6793310865">+679 3310 865</a></p>
+            <p class="mp-hours">Mon - Fri, 8:00 AM - 5:00 PM</p>
+          </div>
+
+          {# Email Us Card #}
+          <div class="mp-info-card">
+            <div class="mp-info-card-header">
+              <div class="mp-info-card-icon"><i class="fa-solid fa-envelope"></i></div>
+              <h4>Email Us</h4>
+            </div>
+            <p><a href="mailto:medica@connect.com.fj">medica@connect.com.fj</a></p>
+          </div>
+
+          {# Business Hours Card #}
+          <div class="mp-info-card">
+            <div class="mp-info-card-header">
+              <div class="mp-info-card-icon"><i class="fa-solid fa-clock"></i></div>
+              <h4>Business Hours</h4>
+            </div>
+            <p>Monday - Friday: 8:00 AM - 5:00 PM<br/>Saturday: 9:00 AM - 1:00 PM<br/>Sunday: Closed</p>
+          </div>
+        </div>
+      </div>
+
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

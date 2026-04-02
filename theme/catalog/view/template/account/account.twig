@@ -1,0 +1,310 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - My Account Dashboard
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #account-account {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Banner -- */
+  .mp-account-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-account-banner::after {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -5%;
+    width: 320px;
+    height: 320px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-account-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .mp-account-banner .mp-banner-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Breadcrumbs -- */
+  #account-account .breadcrumb {
+    padding: 0.75rem 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  #account-account .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+  }
+  #account-account .breadcrumb a:hover {
+    color: #0A2240;
+    text-decoration: underline;
+  }
+
+  /* -- Success alert -- */
+  #account-account .alert-success {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #166534;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* -- Section headings -- */
+  .mp-section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0A2240;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f1f5f9;
+  }
+  .mp-section-title:first-of-type {
+    margin-top: 1.5rem;
+  }
+
+  /* -- Card Grid -- */
+  .mp-dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* -- Dashboard Card -- */
+  .mp-dash-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem 1.4rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+  }
+  .mp-dash-card:hover {
+    border-color: #0891B2;
+    box-shadow: 0 4px 16px rgba(8, 145, 178, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .mp-dash-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: rgba(8, 145, 178, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #0891B2;
+    font-size: 1.15rem;
+  }
+
+  .mp-dash-card-body h4 {
+    color: #0A2240;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .mp-dash-card-body p {
+    color: #64748b;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .mp-account-banner {
+      padding: 32px 0;
+    }
+    .mp-account-banner h1 {
+      font-size: 24px;
+    }
+    .mp-dash-grid {
+      grid-template-columns: 1fr;
+    }
+    .mp-dash-card {
+      padding: 1rem 1.15rem;
+    }
+  }
+</style>
+
+<div class="mp-account-banner">
+  <div class="container">
+    <h1>{{ text_my_account }}</h1>
+    <p class="mp-banner-sub">Manage your account, orders, and preferences</p>
+  </div>
+</div>
+
+<div id="account-account" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> {{ success }}</div>
+  {% endif %}
+  <div class="row">{{ column_left }}
+    <div id="content" class="col">{{ content_top }}
+
+      {# ===== MY ACCOUNT ===== #}
+      <h2 class="mp-section-title">{{ text_my_account }}</h2>
+      <div class="mp-dash-grid">
+        <a href="{{ edit }}" class="mp-dash-card" data-testid="account-edit">
+          <div class="mp-dash-icon"><i class="fa-solid fa-user-pen"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_edit }}</h4>
+            <p>Update your personal information</p>
+          </div>
+        </a>
+        <a href="{{ password }}" class="mp-dash-card" data-testid="account-password">
+          <div class="mp-dash-icon"><i class="fa-solid fa-lock"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_password }}</h4>
+            <p>Change your account password</p>
+          </div>
+        </a>
+        <a href="{{ payment_method }}" class="mp-dash-card" data-testid="account-payment-method">
+          <div class="mp-dash-icon"><i class="fa-solid fa-credit-card"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_payment_method }}</h4>
+            <p>Manage your payment methods</p>
+          </div>
+        </a>
+        <a href="{{ address }}" class="mp-dash-card" data-testid="account-address">
+          <div class="mp-dash-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_address }}</h4>
+            <p>Manage shipping and billing addresses</p>
+          </div>
+        </a>
+        <a href="{{ wishlist }}" class="mp-dash-card" data-testid="account-wishlist">
+          <div class="mp-dash-icon"><i class="fa-solid fa-heart"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_wishlist }}</h4>
+            <p>Products you have saved for later</p>
+          </div>
+        </a>
+      </div>
+
+      {# ===== MY ORDERS ===== #}
+      <h2 class="mp-section-title">{{ text_my_orders }}</h2>
+      <div class="mp-dash-grid">
+        <a href="{{ order }}" class="mp-dash-card" data-testid="account-orders">
+          <div class="mp-dash-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_order }}</h4>
+            <p>View your order history and track shipments</p>
+          </div>
+        </a>
+        <a href="{{ subscription }}" class="mp-dash-card" data-testid="account-subscription">
+          <div class="mp-dash-icon"><i class="fa-solid fa-repeat"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_subscription }}</h4>
+            <p>Manage recurring orders and subscriptions</p>
+          </div>
+        </a>
+        <a href="{{ download }}" class="mp-dash-card" data-testid="account-downloads">
+          <div class="mp-dash-icon"><i class="fa-solid fa-download"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_download }}</h4>
+            <p>Access downloadable product files</p>
+          </div>
+        </a>
+        {% if reward %}
+          <a href="{{ reward }}" class="mp-dash-card" data-testid="account-rewards">
+            <div class="mp-dash-icon"><i class="fa-solid fa-star"></i></div>
+            <div class="mp-dash-card-body">
+              <h4>{{ text_reward }}</h4>
+              <p>View your reward points balance</p>
+            </div>
+          </a>
+        {% endif %}
+        <a href="{{ return }}" class="mp-dash-card" data-testid="account-returns">
+          <div class="mp-dash-icon"><i class="fa-solid fa-rotate-left"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_return }}</h4>
+            <p>Request or view product returns</p>
+          </div>
+        </a>
+        <a href="{{ transaction }}" class="mp-dash-card" data-testid="account-transactions">
+          <div class="mp-dash-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_transaction }}</h4>
+            <p>View your transaction history</p>
+          </div>
+        </a>
+      </div>
+
+      {# ===== AFFILIATE ===== #}
+      {% if affiliate %}
+        <h2 class="mp-section-title">{{ text_my_affiliate }}</h2>
+        <div class="mp-dash-grid">
+          {% if not tracking %}
+            <a href="{{ affiliate }}" class="mp-dash-card" data-testid="account-affiliate-add">
+              <div class="mp-dash-icon"><i class="fa-solid fa-handshake"></i></div>
+              <div class="mp-dash-card-body">
+                <h4>{{ text_affiliate_add }}</h4>
+                <p>Join our affiliate programme</p>
+              </div>
+            </a>
+          {% else %}
+            <a href="{{ affiliate }}" class="mp-dash-card" data-testid="account-affiliate-edit">
+              <div class="mp-dash-icon"><i class="fa-solid fa-handshake"></i></div>
+              <div class="mp-dash-card-body">
+                <h4>{{ text_affiliate_edit }}</h4>
+                <p>Manage your affiliate account</p>
+              </div>
+            </a>
+            <a href="{{ tracking }}" class="mp-dash-card" data-testid="account-tracking">
+              <div class="mp-dash-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="mp-dash-card-body">
+                <h4>{{ text_tracking }}</h4>
+                <p>View your affiliate tracking code</p>
+              </div>
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {# ===== NEWSLETTER ===== #}
+      <h2 class="mp-section-title">{{ text_my_newsletter }}</h2>
+      <div class="mp-dash-grid">
+        <a href="{{ newsletter }}" class="mp-dash-card" data-testid="account-newsletter">
+          <div class="mp-dash-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="mp-dash-card-body">
+            <h4>{{ text_newsletter }}</h4>
+            <p>Manage your email subscription preferences</p>
+          </div>
+        </a>
+      </div>
+
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+{{ footer }}

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ title }}</title>
+  <base href="{{ base }}"/>
+  {% if description %}
+    <meta name="description" content="{{ description }}"/>
+  {% endif %}
+  {% if keywords %}
+    <meta name="keywords" content="{{ keywords }}"/>
+  {% endif %}
+  {# Google Fonts: Inter + Merriweather #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+  {# OpenCart core assets - ALL required defaults #}
+  <script src="{{ jquery }}" type="text/javascript"></script>
+  <link href="{{ bootstrap }}" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="{{ icons }}" rel="stylesheet" type="text/css"/>
+  <link href="{{ stylesheet }}" type="text/css" rel="stylesheet"/>
+  <script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+  {# Medica Pacifica custom stylesheet #}
+  <link href="catalog/view/theme/medicapacifica/stylesheet/medicapacifica.css" type="text/css" rel="stylesheet"/>
+  {% if icon %}
+    <link rel="icon" href="{{ icon }}" type="image/png">
+  {% endif %}
+  {% for style in styles %}
+    <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}"/>
+  {% endfor %}
+  {% for script in scripts %}
+    <script src="{{ script.href }}" type="text/javascript"></script>
+  {% endfor %}
+  {% for link in links %}
+    <link href="{{ link.href }}" rel="{{ link.rel }}"/>
+  {% endfor %}
+  {% for analytic in analytics %}
+    {{ analytic }}
+  {% endfor %}
+  <style>
+    /* ============================================================
+       Medica Pacifica - Header Component Styles
+       Supplements the main medicapacifica.css stylesheet
+       ============================================================ */
+    :root {
+      --mp-navy: #0A2240;
+      --mp-navy-dark: #061529;
+      --mp-ocean: #1B5299;
+      --mp-teal: #0891B2;
+      --mp-teal-dark: #0E7490;
+      --mp-coral: #E86C47;
+      --mp-coral-dark: #D4552F;
+      --mp-white: #FFFFFF;
+      --mp-light-gray: #F8FAFC;
+      --mp-border: #E2E8F0;
+      --mp-text: #1F2937;
+      --mp-text-light: #6B7280;
+      --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-heading: 'Merriweather', Georgia, serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-primary);
+      color: var(--mp-text);
+      line-height: 1.6;
+      background: var(--mp-white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Skip to Content (Accessibility) ===== */
+    .mp-skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      z-index: 10000;
+      padding: 12px 24px;
+      background: var(--mp-coral);
+      color: var(--mp-white);
+      font-weight: 600;
+      font-size: 0.875rem;
+      text-decoration: none;
+      border-radius: 0 0 6px 0;
+      transition: top 0.2s ease;
+    }
+    .mp-skip-link:focus {
+      top: 0;
+      color: var(--mp-white);
+      outline: 2px solid var(--mp-white);
+      outline-offset: 2px;
+    }
+
+    /* ===== Top Utility Bar ===== */
+    .mp-topbar {
+      background: var(--mp-navy);
+      color: var(--mp-white);
+      font-size: 0.8125rem;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mp-topbar__inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .mp-topbar__left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .mp-topbar__left a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .mp-topbar__left a:hover {
+      color: var(--mp-white);
+    }
+    .mp-topbar__left i {
+      color: var(--mp-teal);
+      font-size: 0.75rem;
+    }
+    .mp-topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mp-topbar__account {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mp-topbar__account a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8125rem;
+      transition: color 0.2s;
+    }
+    .mp-topbar__account a:hover {
+      color: var(--mp-white);
+    }
+    .mp-topbar__account a i {
+      color: var(--mp-teal);
+      font-size: 0.6875rem;
+    }
+    .mp-topbar__divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Currency & Language widget overrides */
+    .mp-topbar__widgets {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .mp-topbar__widgets .btn-group .btn,
+    .mp-topbar__widgets .dropdown .btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.8125rem;
+      padding: 2px 10px;
+      border-radius: 4px;
+    }
+    .mp-topbar__widgets .btn-group .btn:hover,
+    .mp-topbar__widgets .dropdown .btn:hover {
+      border-color: var(--mp-teal);
+      color: var(--mp-white);
+    }
+
+    .mp-topbar__quote {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--mp-coral);
+      color: var(--mp-white) !important;
+      padding: 4px 14px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .mp-topbar__quote:hover {
+      background: var(--mp-coral-dark);
+      color: var(--mp-white) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ===== Main Header ===== */
+    .mp-header {
+      background: var(--mp-white);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--mp-border);
+      position: relative;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .mp-header__inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    /* Logo */
+    .mp-header__logo {
+      flex: 0 0 auto;
+      max-width: 250px;
+    }
+    .mp-header__logo a {
+      text-decoration: none;
+    }
+    .mp-header__logo img {
+      max-height: 56px;
+      width: auto;
+    }
+    .mp-header__logo h1 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 1.375rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .mp-header__logo h1 a {
+      color: var(--mp-navy);
+      text-decoration: none;
+    }
+    .mp-header__logo h1 a:hover {
+      color: var(--mp-ocean);
+    }
+    .mp-header__tagline {
+      font-size: 0.6875rem;
+      color: var(--mp-teal);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* Search */
+    .mp-header__search {
+      flex: 1 1 auto;
+      max-width: 540px;
+    }
+    .mp-header__search #search {
+      width: 100%;
+    }
+    .mp-header__search #search input.form-control {
+      border: 2px solid var(--mp-border);
+      border-radius: 8px 0 0 8px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      font-family: var(--font-primary);
+      transition: border-color 0.2s;
+    }
+    .mp-header__search #search input.form-control:focus {
+      border-color: var(--mp-teal);
+      box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+    }
+    .mp-header__search #search .input-group-button .btn,
+    .mp-header__search #search .input-group .btn {
+      background: var(--mp-teal);
+      border: 2px solid var(--mp-teal);
+      border-radius: 0 8px 8px 0;
+      color: var(--mp-white);
+      padding: 10px 18px;
+      transition: background 0.2s;
+    }
+    .mp-header__search #search .input-group-button .btn:hover,
+    .mp-header__search #search .input-group .btn:hover {
+      background: var(--mp-teal-dark);
+      border-color: var(--mp-teal-dark);
+    }
+
+    /* Cart */
+    .mp-header__cart {
+      flex: 0 0 auto;
+    }
+
+    /* ===== Main Navigation ===== */
+    .mp-nav {
+      background: var(--mp-navy);
+      position: relative;
+      z-index: 99;
+    }
+    .mp-nav .navbar {
+      padding: 0;
+      background: transparent !important;
+    }
+    .mp-nav .navbar-nav .nav-link {
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-weight: 500;
+      font-size: 0.875rem;
+      padding: 14px 16px !important;
+      letter-spacing: 0.01em;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .mp-nav .navbar-nav .nav-link:hover,
+    .mp-nav .navbar-nav .nav-link:focus {
+      color: var(--mp-white) !important;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .mp-nav .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--mp-teal);
+      transition: width 0.25s ease;
+    }
+    .mp-nav .navbar-nav .nav-link:hover::after {
+      width: 70%;
+    }
+    .mp-nav .dropdown-toggle::after {
+      margin-left: 5px;
+      vertical-align: 0.15em;
+    }
+
+    /* Dropdown menus */
+    .mp-nav .dropdown-menu {
+      background: var(--mp-white);
+      border: none;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 10px 40px rgba(10, 34, 64, 0.15);
+      padding: 12px;
+      margin-top: 0;
+    }
+    .mp-nav .dropdown-item {
+      color: var(--mp-text);
+      font-size: 0.875rem;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mp-nav .dropdown-item:hover,
+    .mp-nav .dropdown-item:focus {
+      background: rgba(8, 145, 178, 0.08);
+      color: var(--mp-ocean);
+    }
+    .mp-nav .dropdown-inner {
+      padding: 0 4px;
+    }
+
+    /* Dropdown column widths */
+    .dropdown-column-2 { min-width: 400px; }
+    .dropdown-column-3 { min-width: 600px; }
+    .dropdown-column-4 { min-width: 780px; }
+    .dropdown-column-2 .dropdown-inner,
+    .dropdown-column-3 .dropdown-inner,
+    .dropdown-column-4 .dropdown-inner {
+      display: inline-block;
+      vertical-align: top;
+    }
+    .dropdown-column-2 .dropdown-inner { width: 49%; }
+    .dropdown-column-3 .dropdown-inner { width: 32%; }
+    .dropdown-column-4 .dropdown-inner { width: 24%; }
+
+    /* Static links pushed right */
+    .mp-nav__static {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .mp-nav__static .nav-link {
+      white-space: nowrap;
+    }
+
+    /* Mobile toggle */
+    .mp-nav .navbar-toggler {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 12px;
+    }
+    .mp-nav .navbar-toggler:focus {
+      box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.5);
+    }
+    .mp-nav .navbar-toggler i {
+      color: var(--mp-white);
+    }
+    .mp-nav #category {
+      color: var(--mp-white);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      padding: 12px 0;
+    }
+
+    /* Navbar collapse on mobile */
+    .mp-nav .navbar-collapse {
+      display: flex;
+      align-items: center;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 991.98px) {
+      .mp-topbar__left {
+        display: none;
+      }
+      .mp-topbar__right {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .mp-topbar__account {
+        display: none;
+      }
+      .mp-header__inner {
+        flex-wrap: wrap;
+      }
+      .mp-header__logo {
+        max-width: 180px;
+      }
+      .mp-header__search {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .mp-nav__static {
+        margin-left: 0;
+        flex-direction: column;
+        width: 100%;
+      }
+      .mp-nav__static .nav-link {
+        padding: 12px 16px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .mp-nav .navbar-collapse {
+        flex-direction: column;
+        align-items: stretch;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 8px;
+      }
+      .mp-nav .navbar-nav .nav-link::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .mp-header {
+        padding: 10px 0;
+      }
+      .mp-header__logo {
+        max-width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+{# ===== Skip to Content ===== #}
+<a href="#mp-main-content" class="mp-skip-link" data-testid="skip-to-content">Skip to main content</a>
+
+<div id="container">
+  <div id="alert"></div>
+
+  {# ===== Top Utility Bar ===== #}
+  <nav id="top" class="mp-topbar" aria-label="Utility navigation">
+    <div class="mp-topbar__inner">
+      <div class="mp-topbar__left">
+        <a href="tel:+6793310865" data-testid="topbar-phone">
+          <i class="fa-solid fa-phone"></i>
+          +679 3310 865
+        </a>
+        <a href="mailto:medica@connect.com.fj" data-testid="topbar-email">
+          <i class="fa-solid fa-envelope"></i>
+          medica@connect.com.fj
+        </a>
+      </div>
+      <div class="mp-topbar__right">
+        {# Account links #}
+        <div class="mp-topbar__account">
+          {% if logged %}
+            <a href="{{ account }}" data-testid="topbar-account"><i class="fa-solid fa-user"></i> {{ text_account }}</a>
+            <a href="{{ order }}" data-testid="topbar-orders"><i class="fa-solid fa-box"></i> {{ text_order }}</a>
+            <a href="{{ logout }}" data-testid="topbar-logout"><i class="fa-solid fa-right-from-bracket"></i> {{ text_logout }}</a>
+          {% else %}
+            <a href="{{ login }}" data-testid="topbar-login"><i class="fa-solid fa-right-to-bracket"></i> {{ text_login }}</a>
+            <a href="{{ register }}" data-testid="topbar-register"><i class="fa-solid fa-user-plus"></i> {{ text_register }}</a>
+          {% endif %}
+        </div>
+        <span class="mp-topbar__divider"></span>
+        {# Currency & Language selectors (OpenCart widgets) #}
+        <div class="mp-topbar__widgets">
+          {{ currency }}
+          {{ language }}
+        </div>
+        <span class="mp-topbar__divider"></span>
+        {# Request a Quote #}
+        <a href="{{ contact }}" class="mp-topbar__quote" data-testid="topbar-quote">
+          <i class="fa-solid fa-file-invoice"></i>
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  {# ===== Main Header ===== #}
+  <header class="mp-header">
+    <div class="mp-header__inner">
+      {# Logo #}
+      <div class="mp-header__logo" id="logo">
+        {% if logo %}
+          <a href="{{ home }}" data-testid="header-logo">
+            <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-fluid"/>
+          </a>
+        {% else %}
+          <h1><a href="{{ home }}" data-testid="header-logo">{{ name }}</a></h1>
+        {% endif %}
+        <div class="mp-header__tagline">Pacific Healthcare, World-Class Supply</div>
+      </div>
+      {# Search (OpenCart widget) #}
+      <div class="mp-header__search">
+        {{ search }}
+      </div>
+      {# Cart (OpenCart widget) #}
+      <div class="mp-header__cart" id="header-cart">
+        {{ cart }}
+      </div>
+    </div>
+  </header>
+
+  {# ===== Main Navigation ===== #}
+  <nav id="menu" class="mp-nav navbar navbar-expand-lg" aria-label="Main navigation">
+    <div class="container">
+      <div id="category" class="d-block d-sm-block d-lg-none">Categories</div>
+      <button type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" class="navbar-toggler d-lg-none" aria-label="Toggle navigation" data-testid="mobile-menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div id="navbar-menu" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          {% for category in categories %}
+            {% if category.children %}
+              <li class="nav-item dropdown">
+                <a href="{{ category.href }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ category.name }}</a>
+                <div class="dropdown-menu{% if category.column != 1 %} dropdown-column-{{ category.column }}{% endif %}">
+                  {% for children in category.children|batch(category.children|length / category.column) %}
+                    <div class="dropdown-inner">
+                      <ul class="list-unstyled">
+                        {% for child in children %}
+                          <li><a href="{{ child.href }}" class="dropdown-item">{{ child.name }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endfor %}
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a href="{{ category.href }}" class="nav-link">{{ category.name }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+        {# Static navigation links #}
+        <div class="mp-nav__static">
+          <a href="{{ home }}index.php?route=information/information&language={{ lang }}&information_id=4" class="nav-link" data-testid="nav-about">About</a>
+          <a href="{{ home }}index.php?route=information/information&language={{ lang }}&information_id=6" class="nav-link" data-testid="nav-services">Services</a>
+          <a href="{{ contact }}" class="nav-link" data-testid="nav-contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {# Main content begins #}
+  <main id="mp-main-content">

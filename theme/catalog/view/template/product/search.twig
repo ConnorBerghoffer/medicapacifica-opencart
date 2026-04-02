@@ -1,0 +1,441 @@
+{{ header }}
+<style>
+  /* ============================================================
+     Medica Pacifica - Product Search
+     Navy #0A2240 | Teal #0891B2 | Coral #E86C47 | White #FFF | Grey #F8FAFC
+     Font: Inter
+     ============================================================ */
+  #product-search {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* -- Banner -- */
+  .mp-search-banner {
+    background: linear-gradient(135deg, #0A2240 0%, #0d2d54 60%, #112f5a 100%);
+    padding: 44px 0;
+    margin-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .mp-search-banner::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -5%;
+    width: 340px;
+    height: 340px;
+    background: rgba(8, 145, 178, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .mp-search-banner h1 {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .mp-search-banner .mp-banner-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* -- Breadcrumbs -- */
+  #product-search .breadcrumb {
+    padding: 0.75rem 0;
+    margin-bottom: 0;
+    font-size: 0.85rem;
+    background: transparent;
+  }
+  #product-search .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+  }
+  #product-search .breadcrumb a:hover {
+    color: #0A2240;
+    text-decoration: underline;
+  }
+
+  /* -- Search Form Card -- */
+  .mp-search-form {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin: 1.5rem 0 2rem;
+    box-shadow: 0 1px 4px rgba(10, 34, 64, 0.06);
+  }
+  .mp-search-form .mp-form-label {
+    font-weight: 600;
+    color: #0A2240;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .mp-search-form .form-control,
+  .mp-search-form .form-select {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .mp-search-form .form-control:focus,
+  .mp-search-form .form-select:focus {
+    border-color: #0891B2;
+    box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+  }
+  .mp-search-form .form-check-input:checked {
+    background-color: #0891B2;
+    border-color: #0891B2;
+  }
+  .mp-search-form .form-check-label {
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  .mp-btn-search {
+    background: #0891B2;
+    border: none;
+    color: #ffffff;
+    padding: 0.6rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s, transform 0.1s;
+    cursor: pointer;
+  }
+  .mp-btn-search:hover {
+    background: #0e7490;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  /* -- Results Header -- */
+  .mp-results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f1f5f9;
+  }
+  .mp-results-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0A2240;
+    margin: 0;
+  }
+
+  /* -- Toolbar -- */
+  #display-control .input-group-text {
+    background: #F8FAFC;
+    border-color: #e2e8f0;
+    color: #0A2240;
+    font-weight: 600;
+    font-size: 0.82rem;
+  }
+  #display-control .form-select {
+    border-color: #e2e8f0;
+    font-size: 0.88rem;
+  }
+  #display-control .btn-light {
+    border-color: #e2e8f0;
+    transition: all 0.2s;
+  }
+  #display-control .btn-light:hover {
+    background: #0891B2;
+    color: #ffffff;
+    border-color: #0891B2;
+  }
+  .mp-compare-link {
+    background: #0A2240 !important;
+    border-color: #0A2240 !important;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  .mp-compare-link:hover {
+    background: #0f3460 !important;
+    border-color: #0f3460 !important;
+  }
+
+  /* -- Product Grid -- */
+  #product-list .col {
+    margin-bottom: 0.5rem;
+  }
+
+  /* -- Pagination Bar -- */
+  .mp-pagination-bar {
+    background: #F8FAFC;
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    margin-top: 1rem;
+    border: 1px solid #e2e8f0;
+  }
+  .mp-pagination-bar .pagination { margin: 0; }
+
+  /* -- No Results -- */
+  .mp-no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #F8FAFC;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    border: 1px solid #e2e8f0;
+  }
+  .mp-no-results-icon {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: #94a3b8;
+    font-size: 2.5rem;
+  }
+  .mp-no-results h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0A2240;
+    margin: 0 0 0.5rem;
+  }
+  .mp-no-results p {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0 0 1rem;
+    line-height: 1.6;
+  }
+  .mp-no-results .mp-suggestions {
+    text-align: left;
+    max-width: 420px;
+    margin: 0 auto 1.5rem;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid #e2e8f0;
+  }
+  .mp-no-results .mp-suggestions h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0A2240;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 0.6rem;
+  }
+  .mp-no-results .mp-suggestions ul {
+    margin: 0;
+    padding: 0 0 0 1.2rem;
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.85;
+  }
+  .mp-no-results .btn-continue {
+    background: #E86C47;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.8rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .mp-no-results .btn-continue:hover {
+    background: #d45a38;
+    color: #ffffff;
+  }
+</style>
+
+<div class="mp-search-banner">
+  <div class="container">
+    <h1>{{ heading_title }}</h1>
+    <p class="mp-banner-sub">Find the medical supplies and equipment you need</p>
+  </div>
+</div>
+
+<div id="product-search" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">
+    {{ column_left }}
+    <div id="content" class="col">
+      {{ content_top }}
+
+      {# -- Search Form -- #}
+      <div class="mp-search-form">
+        <div class="row">
+          <div class="col"><label for="input-search" class="mp-form-label">{{ entry_search }}</label></div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2">
+          <div class="col mb-3">
+            <input type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" class="form-control mb-1" data-testid="search-input"/>
+            <div class="form-check">
+              <input type="checkbox" name="description" value="1" id="input-description" class="form-check-input"{% if description %} checked{% endif %}/>
+              <label for="input-description" class="form-check-label">{{ entry_description }}</label>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <select name="category_id" id="input-category" class="form-select mb-1" data-testid="search-category">
+              <option value="0">{{ text_category }}</option>
+              {% for category_1 in categories %}
+                <option value="{{ category_1.category_id }}"{% if category_1.category_id == category_id %} selected{% endif %}>{{ category_1.name }}</option>
+                {% for category_2 in category_1.children %}
+                  <option value="{{ category_2.category_id }}"{% if category_2.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+                  {% for category_3 in category_2.children %}
+                    <option value="{{ category_3.category_id }}"{% if category_3.category_id == category_id %} selected{% endif %}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
+                  {% endfor %}
+                {% endfor %}
+              {% endfor %}
+            </select>
+            <div class="form-check">
+              <input type="checkbox" name="sub_category" value="1" id="input-sub-category" class="form-check-input"{% if sub_category %} checked{% endif %}/>
+              <label for="input-sub-category" class="form-check-label">{{ text_sub_category }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-end">
+            <button type="button" id="button-search" class="btn mp-btn-search" data-testid="btn-search">
+              <i class="fa-solid fa-magnifying-glass me-1"></i> {{ button_search }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      {# -- Results Heading -- #}
+      <div class="mp-results-header">
+        <h2>{{ text_search }}</h2>
+      </div>
+
+      {% if products %}
+        <div id="display-control" class="row">
+          <div class="col-md-3">
+            <div class="mb-3">
+              <a href="{{ compare }}" id="compare-total" class="btn btn-primary mp-compare-link d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline">{{ text_compare }}</span></a>
+            </div>
+          </div>
+          <div class="col-md-1 d-none d-md-block">
+            <div class="btn-group">
+              <button type="button" id="button-list" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_list }}" data-testid="view-list"><i class="fa-solid fa-table-list"></i></button>
+              <button type="button" id="button-grid" class="btn btn-light" data-bs-toggle="tooltip" title="{{ button_grid }}" data-testid="view-grid"><i class="fa-solid fa-table-cells"></i></button>
+            </div>
+          </div>
+          <div class="col-md-4 offset-md-1 col-6">
+            <div class="input-group mb-3">
+              <label for="input-sort" class="input-group-text">{{ text_sort }}</label>
+              <select id="input-sort" class="form-select" data-testid="sort-select" onchange="location = this.value;">
+                {% for sorts in sorts %}
+                  <option value="{{ sorts.href }}"{% if sorts.value == '%s-%s'|format(sort, order) %} selected{% endif %}>{{ sorts.text }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="input-group mb-3">
+              <label for="input-limit" class="input-group-text">{{ text_limit }}</label>
+              <select id="input-limit" class="form-select" data-testid="limit-select" onchange="location = this.value;">
+                {% for limits in limits %}
+                  <option value="{{ limits.href }}"{% if limits.value == limit %} selected{% endif %}>{{ limits.text }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
+          {% for product in products %}
+            <div class="col mb-3">{{ product }}</div>
+          {% endfor %}
+        </div>
+
+        <div class="mp-pagination-bar row">
+          <div class="col-sm-6 text-start">{{ pagination }}</div>
+          <div class="col-sm-6 text-end">{{ results }}</div>
+        </div>
+
+      {% else %}
+        <div class="mp-no-results">
+          <div class="mp-no-results-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h3>No Products Found</h3>
+          <p>{{ text_no_results }}</p>
+          <div class="mp-suggestions">
+            <h4>Suggestions</h4>
+            <ul>
+              <li>Check your spelling and try again</li>
+              <li>Use more general or broader search terms</li>
+              <li>Browse our product categories</li>
+              <li>Contact our team at +679 3310 865 for help</li>
+            </ul>
+          </div>
+          <a href="{{ continue }}" class="btn-continue" data-testid="btn-continue">{{ button_continue }}</a>
+        </div>
+      {% endif %}
+
+      {{ content_bottom }}
+    </div>
+    {{ column_right }}
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#button-search').bind('click', function() {
+    url = 'index.php?route=product/search&language={{ language }}';
+
+    var search = $('#input-search').val();
+
+    if (search) {
+        url += '&search=' + encodeURIComponent(search);
+    }
+
+    var category_id = $('#input-category').prop('value');
+
+    if (category_id > 0) {
+        url += '&category_id=' + encodeURIComponent(category_id);
+    }
+
+    var sub_category = $('#input-sub-category:checked').prop('value');
+
+    if (sub_category) {
+        url += '&sub_category=1';
+    }
+
+    var description = $('#input-description:checked').prop('value');
+
+    if (description) {
+        url += '&description=1';
+    }
+
+    location = url;
+});
+
+$('#input-search').bind('keydown', function(e) {
+    if (e.keyCode == 13) {
+        $('#button-search').trigger('click');
+    }
+});
+
+$('#input-category').on('change', function() {
+    $('#input-sub-category').prop('disabled', (this.value == '0' ? true : false));
+});
+
+$('#input-category').trigger('change');
+//--></script>
+{{ footer }}

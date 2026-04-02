@@ -44,6 +44,11 @@ RUN curl -fSL "https://github.com/opencart/opencart/releases/download/${OPENCART
 RUN touch /var/www/html/config.php \
     && touch /var/www/html/admin/config.php
 
+# Install Medica Pacifica custom theme
+COPY theme/catalog/view/template/ /var/www/html/catalog/view/template/
+COPY theme/catalog/view/stylesheet/stylesheet.css /var/www/html/catalog/view/stylesheet/medicapacifica.css
+COPY theme/catalog/view/javascript/medicapacifica.js /var/www/html/catalog/view/javascript/medicapacifica.js
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
